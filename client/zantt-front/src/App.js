@@ -12,10 +12,11 @@ function App() {
   return (
     <>
       <Routes>
-        <Route path="mow" element={<MowIndexPage />} />
-        <Route path="mow/project" element={<ProjectIndex />}>
-          <Route path="workspace" element={<WorkspaceIndex />}>
-            <Route path="task" element={<TaskIndex />} />
+        <Route path="mow" element={<MowIndexPage />}>
+          <Route path="project" element={<ProjectIndex />}>
+            <Route path="workspace" element={<WorkspaceIndex />}>
+              <Route path="task" element={<TaskIndex />} />
+            </Route>
           </Route>
         </Route>
       </Routes>

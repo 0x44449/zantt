@@ -12,6 +12,7 @@ function ProjectIndex() {
           <div className="flex flex-col w-32">
             <div>Project</div>
             <ProjectItem title="project1" />
+            <ProjectItem title="project2" />
           </div>
           <div className="flex flex-col w-full">
             <Outlet />

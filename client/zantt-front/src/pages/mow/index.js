@@ -6,7 +6,10 @@ import {
 function MowIndex() {
   return (
     <>
-      <div>Mow</div>
+      <React.Suspense fallback={<>...</>}>
+        <div>Mow</div>
+        <Outlet />
+      </React.Suspense>
     </>
   );
 }

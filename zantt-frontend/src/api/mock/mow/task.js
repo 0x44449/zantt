@@ -1,9 +1,4 @@
-import axios from "axios";
-import MockAdapter from "axios-mock-adapter";
-
-const mock = new MockAdapter(axios, {
-  delayResponse: 1000
-});
+import mock from "@/api/mock";
 
 /** @type {Zantt.ApiResponse<Zantt.TaskModelType[]>} */
 const tasks = {
@@ -15,7 +10,19 @@ const tasks = {
   }, {
     taskId: "2",
     projectId: "1",
-    title: "title1"
+    title: "title2"
+  }, {
+    taskId: "3",
+    projectId: "1",
+    title: "title3"
+  }, {
+    taskId: "4",
+    projectId: "1",
+    title: "title4"
+  }, {
+    taskId: "5",
+    projectId: "1",
+    title: "title5"
   }]
 };
-mock.onGet("/project/projects").reply(200, tasks);
+mock.onGet("/task/tasks").reply(200, tasks);

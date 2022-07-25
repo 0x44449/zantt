@@ -3,14 +3,16 @@ import PropTypes from "prop-types"
 
 /**
  * @typedef {object} TaskListItemPropType
+ * @property {string} taskId
+ * @property {string} projectId
  * @property {string} title
- * @property {Date} createdDate
- * @property {Date} modifiedDate
+ * @property {(projectId: string) => void} [onSelect]
  */
-const TaskListItemProp = {
+export const TaskListItemProp = {
+  taskId: PropTypes.string.isRequired,
+  projectId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
-  createdDate: PropTypes.instanceOf(Date).isRequired,
-  modifiedDate: PropTypes.instanceOf(Date).isRequired
+  onSelect: PropTypes.func,
 }
 
 /**
@@ -18,12 +20,21 @@ const TaskListItemProp = {
  * @returns {React.ReactElement}
  */
 function TaskListItem(props) {
+  /**
+   * @param {React.MouseEvent<HTMLElement>} e 
+   */
+   const handleItemClick = (e) => {
+    if (props.onSelect) {
+      props.onSelect(props.projectId);
+    }
+  };
   
   return (
     <>
       <div>
-        <div>{props.title}</div>
-        <div>{props.createdDate}</div>
+        <div onClick={handleItemClick}>
+          <div>{props.title}</div>
+        </div>
       </div>
     </>
   )

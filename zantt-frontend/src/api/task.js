@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import "@/api/mock/mow/task";
+import "@/api/mock/task";
 
 /**
  * @param {string} projectId 

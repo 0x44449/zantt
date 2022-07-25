@@ -1,6 +1,6 @@
 import axios from "axios";
 
-import "@/api/mock/mow/project";
+import "@/api/mock/project";
 
 /**
  * @return {Promise<Zantt.ApiResponse<Zantt.ProjectModelType[]>>}

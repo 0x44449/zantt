@@ -7,6 +7,7 @@ import "@/api/mock/task";
  * @return {Promise<Zantt.ApiResponse<Zantt.TaskModelType[]>>}
  */
 export async function getTasks(projectId) {
+  console.log("* call getTasks");
   /** @type {import("axios").AxiosResponse<Zantt.ApiResponse<Zantt.TaskModelType[]>>} */
   const response = await axios.get("/task/tasks", {
     params: {

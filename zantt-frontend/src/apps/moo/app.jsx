@@ -1,18 +1,10 @@
-import { Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router'
-import { getTasks } from '@/api/task';
-import { getProjects } from '@/api/project';
 import ProjectNavBar from '@/apps/moo/project/project-nav-bar';
 import TaskList from '@/apps/moo/task/task-list';
-import { getProjectsFetcher } from "@/apps/moo/project/fetcher";
-import { getTasksFetcher } from '@/apps/moo/task/fetcher';
+import { getProjectsCache, getProjectsFetcher } from "@/apps/moo/project/fetcher";
+import { getTasksCache, getTasksFetcher } from '@/apps/moo/task/fetcher';
 
-/**
- * @typedef {object} SelectedStateType
- * @property {string} projectId
- * @property {string} taskId
- * @property {string} workspaceId
- */
 /**
  * @returns {React.ReactElement}
  */
@@ -32,10 +24,16 @@ export default function App() {
   /** @type {[Zantt.TaskModelType[], React.Dispatch<React.SetStateAction<Zantt.TaskModelType[]>>]} */
   const [tasks, setTasks] = useState();
 
-  /** @type {[import('@/apps/moo/project/fetcher').ProjectFetcher, React.Dispatch<React.SetStateAction<import('@/apps/moo/project/fetcher').ProjectFetcher>>]} */
-  const [projectsFetcher, setProjectsFetcher] = useState(getProjectsFetcher());
-  /** @type {[import('@/apps/moo/task/fetcher').TaskFetcher, React.Dispatch<React.SetStateAction<import('@/apps/moo/task/fetcher').TaskFetcher>>]} */
-  const [tasksFetcher, setTasksFetcher] = useState(getTasksFetcher(""));
+  /** @type {import('@/apps/moo/project/fetcher').ProjectFetcher} */
+  const projectsFetcher = useMemo(() => {
+    console.log("projectsFetcher memoize");
+    return getProjectsFetcher();
+  }, []);
+  /** @type {import('@/apps/moo/task/fetcher').TaskFetcher} */
+  const tasksFetcher = useMemo(() => {
+    console.log("tasksFetcher memoize");
+    return getTasksFetcher(projectId);
+  }, [projectId]);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -48,35 +46,25 @@ export default function App() {
     const selectedTaskId = slugs[1] || "";
     const selectedWorkspaceId = slugs[2] || "";
 
-    if (projectId !== selectedProjectId) {
-      setTasksFetcher(getTasksFetcher(selectedProjectId));
-    }
-
-    if (projectId !== selectedProjectId) {
-      setProjectId(selectedProjectId);
-    }
-    if (taskId !== selectedTaskId) {
-      setTaskId(selectedTaskId);
-    }
-    if (workspaceId !== selectedWorkspaceId) {
-      setWorkspaceId(selectedWorkspaceId);
-    }
+    setProjectId(selectedProjectId);
+    setTaskId(selectedTaskId);
+    setWorkspaceId(selectedWorkspaceId);
   }, [router]);
 
   return (
     <>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div>Loading Global...</div>}>
         <ProjectNavBar
-          selectedProjectId={""}
+          selectedProjectId={projectId}
           fetcher={projectsFetcher}
         />
-      </Suspense>
-      <Suspense fallback={<div>Loading...</div>}>
-        <TaskList
-          selectedProjectId={""}
-          selectedTaskId={""}
-          fetcher={tasksFetcher}
-        />
+        <Suspense fallback={<div>Loading...</div>}>
+          <TaskList
+            selectedProjectId={projectId}
+            selectedTaskId={taskId}
+            fetcher={tasksFetcher}
+          />
+        </Suspense>
       </Suspense>
     </>
   )

@@ -18,4 +18,24 @@ declare namespace Zantt {
     projectId: string,
     title: string
   }
+  type WorkspaceModelType = {
+    workspaceId: string,
+    taskId: string,
+    projectId: string,
+    title: string,
+    contents: string,
+  }
+  type TimelineModelType = {
+    timelineId: string,
+    workspaceId: string,
+    taskId: string,
+    projectId: string,
+    timelineType: string,
+    fields: TimelineFieldModelType[],
+  }
+  type TimelineFieldModelType = {
+    fieldType: string,
+    fieldKey: string,
+    fieldValue: string,
+  }
 }

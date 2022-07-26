@@ -1,10 +1,12 @@
 import { getTasks } from "@/api/task";
 
+/** @type {Zantt.TaskModelType[]} */
+let tasksCache = [];
+
 /**
  * @typedef {Zantt.SuspenderActionType<Zantt.ProjectModelType[]>} ProjectFetcher
  * @typedef {Zantt.SuspenderActionType<Zantt.TaskModelType[]>} TaskFetcher
  */
-
 /**
  * @param {string} projectId 
  * @returns {TaskFetcher}
@@ -14,7 +16,8 @@ export const getTasksFetcher = (projectId) => {
     return {
       fetch() {
         console.log(`tasks fetch return empty`);
-        return [];
+        tasksCache = [];
+        return tasksCache;
       }
     }
   }
@@ -38,11 +41,19 @@ export const getTasksFetcher = (projectId) => {
         throw suspender;
       }
       else if (state === "completed") {
-        return result.data;
+        tasksCache = result.data;
+        return tasksCache;
       }
       else if (state === "error") {
         throw result;
       }
     }
   }
+}
+
+/**
+ * @returns {Zantt.TaskModelType[]}
+ */
+export const getTasksCache = () => {
+  return tasksCache;
 }

@@ -1,5 +1,8 @@
 import { getProjects } from "@/api/project";
 
+/** @type {Zantt.ProjectModelType[]} */
+let projectsCache = [];
+
 /**
  * @typedef {Zantt.SuspenderActionType<Zantt.ProjectModelType[]>} ProjectFetcher
  */
@@ -27,11 +30,19 @@ export const getProjectsFetcher = () => {
         throw suspender;
       }
       else if (state === "completed") {
-        return result.data;
+        projectsCache = result.data;
+        return projectsCache;
       }
       else if (state === "error") {
         throw result;
       }
     }
   }
+}
+
+/**
+ * @returns {Zantt.ProjectModelType[]}
+ */
+export const getProjectsCache = () => {
+  return projectsCache;
 }

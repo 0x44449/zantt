@@ -5,13 +5,13 @@ import PropTypes from "prop-types";
 /**
  * @typedef {object} ProjectNavBarPropType
  * @property {string} selectedProjectId
- * @property {import("./fetcher").ProjectFetcher} fetcher
+ * @property {import("./fetcher").ProjectFetcher} [fetcher]
  * @property {Zantt.ProjectModelType[]} [projects]
  * @property {(projectId: string) => void} [onSelectProject]
  */
 export const ProjectNavBarProp = {
   selectedProjectId: PropTypes.string.isRequired,
-  fetcher: PropTypes.object.isRequired,
+  fetcher: PropTypes.object,
   projects: PropTypes.array,
   onSelectProject: PropTypes.func,
 }

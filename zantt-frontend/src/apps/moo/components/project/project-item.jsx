@@ -16,13 +16,13 @@ export const ProjectItemProp = {
  * @param {ProjectItemPropType} props 
  * @returns {React.ReactElement}
  */
-function ProjectItem(props) {
+function ProjectItem({ projectId, name, onSelect }) {
   /**
    * @param {React.MouseEvent<HTMLElement>} e 
    */
   const handleItemClick = (e) => {
-    if (props.onSelect) {
-      props.onSelect(props.projectId);
+    if (onSelect) {
+      onSelect(projectId);
     }
   };
 
@@ -30,7 +30,7 @@ function ProjectItem(props) {
     <>
       <div>
         <div onClick={handleItemClick}>
-          <div>{props.name}</div>
+          <div>{name}</div>
         </div>
       </div>
     </>

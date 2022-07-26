@@ -1,18 +1,18 @@
-import TaskItem from "@/components/moo/task/task-item";
+import TaskItem from "@/apps/moo/components/task/task-item";
 import Link from "next/link";
 import PropTypes from "prop-types";
 
 /**
  * @typedef {object} TaskListPropType
- * @property {string} selectedProjectId
- * @property {string} selectedTaskId
- * @property {import("./fetcher").TaskFetcher} [fetcher]
+ * @property {string} projectId
+ * @property {string} taskId
+ * @property {import("../fetchers/task-fetcher").TaskFetcher} [fetcher]
  * @property {Zantt.TaskModelType[]} [tasks]
  * @property {(projectId: string, taskId: string) => void} [onSelectTask]
  */
 const TaskListProp = {
-  selectedProjectId: PropTypes.string.isRequired,
-  selectedTaskId: PropTypes.string.isRequired,
+  projectId: PropTypes.string.isRequired,
+  taskId: PropTypes.string.isRequired,
   fetcher: PropTypes.object,
   tasks: PropTypes.array,
   onSelectTask: PropTypes.func,

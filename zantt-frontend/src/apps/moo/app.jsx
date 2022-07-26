@@ -1,9 +1,9 @@
 import { Suspense, useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router'
-import ProjectNavBar from '@/apps/moo/project/project-nav-bar';
-import TaskList from '@/apps/moo/task/task-list';
-import { getProjectsCache, getProjectsFetcher } from "@/apps/moo/project/fetcher";
-import { getTasksCache, getTasksFetcher } from '@/apps/moo/task/fetcher';
+import ProjectNavBar from '@/apps/moo/controls/project-nav-bar';
+import TaskList from '@/apps/moo/controls/task-list';
+import { getProjectsCache, getProjectsFetcher } from "@/apps/moo/fetchers/project-fetcher";
+import { getTasksCache, getTasksFetcher } from '@/apps/moo/fetchers/task-fetcher';
 
 /**
  * @returns {React.ReactElement}
@@ -19,17 +19,13 @@ export default function App() {
   const [taskId, setTaskId] = useState("");
   /** @type {[string, React.Dispatch<React.SetStateAction<string>>]} */
   const [workspaceId, setWorkspaceId] = useState("");
-  /** @type {[Zantt.ProjectModelType[], React.Dispatch<React.SetStateAction<Zantt.ProjectModelType[]>>]} */
-  const [projects, setProjects] = useState();
-  /** @type {[Zantt.TaskModelType[], React.Dispatch<React.SetStateAction<Zantt.TaskModelType[]>>]} */
-  const [tasks, setTasks] = useState();
 
-  /** @type {import('@/apps/moo/project/fetcher').ProjectFetcher} */
+  /** @type {import('@/apps/moo/fetchers/project-fetcher').ProjectFetcher} */
   const projectsFetcher = useMemo(() => {
     console.log("projectsFetcher memoize");
     return getProjectsFetcher();
   }, []);
-  /** @type {import('@/apps/moo/task/fetcher').TaskFetcher} */
+  /** @type {import('@/apps/moo/fetchers/task-fetcher').TaskFetcher} */
   const tasksFetcher = useMemo(() => {
     console.log("tasksFetcher memoize");
     return getTasksFetcher(projectId);
@@ -55,13 +51,13 @@ export default function App() {
     <>
       <Suspense fallback={<div>Loading Global...</div>}>
         <ProjectNavBar
-          selectedProjectId={projectId}
+          projectId={projectId}
           fetcher={projectsFetcher}
         />
         <Suspense fallback={<div>Loading...</div>}>
           <TaskList
-            selectedProjectId={projectId}
-            selectedTaskId={taskId}
+            projectId={projectId}
+            taskId={taskId}
             fetcher={tasksFetcher}
           />
         </Suspense>

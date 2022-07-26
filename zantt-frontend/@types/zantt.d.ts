@@ -22,7 +22,6 @@ declare namespace Zantt {
     workspaceId: string,
     taskId: string,
     projectId: string,
-    title: string,
     contents: string,
   }
   type TimelineModelType = {

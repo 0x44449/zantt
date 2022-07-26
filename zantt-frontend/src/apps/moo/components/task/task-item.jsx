@@ -18,21 +18,21 @@ export const TaskItemProp = {
  * @param {TaskItemPropType} props 
  * @returns {React.ReactElement}
  */
-function TaskItem(props) {
+function TaskItem({ taskId, projectId, title, onSelect }) {
   /**
    * @param {React.MouseEvent<HTMLElement>} e 
    */
-   const handleItemClick = (e) => {
-    if (props.onSelect) {
-      props.onSelect(props.projectId);
+  const handleItemClick = (e) => {
+    if (onSelect) {
+      onSelect(projectId);
     }
   };
-  
+
   return (
     <>
       <div>
         <div onClick={handleItemClick}>
-          <div>{props.title}</div>
+          <div>{title}</div>
         </div>
       </div>
     </>

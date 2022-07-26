@@ -1,16 +1,16 @@
-import ProjectItem from "@/components/moo/project/project-item";
+import ProjectItem from "@/apps/moo/components/project/project-item";
 import Link from "next/link";
 import PropTypes from "prop-types";
 
 /**
  * @typedef {object} ProjectNavBarPropType
- * @property {string} selectedProjectId
- * @property {import("./fetcher").ProjectFetcher} [fetcher]
+ * @property {string} projectId
+ * @property {import("../fetchers/project-fetcher").ProjectFetcher} [fetcher]
  * @property {Zantt.ProjectModelType[]} [projects]
  * @property {(projectId: string) => void} [onSelectProject]
  */
 export const ProjectNavBarProp = {
-  selectedProjectId: PropTypes.string.isRequired,
+  projectId: PropTypes.string.isRequired,
   fetcher: PropTypes.object,
   projects: PropTypes.array,
   onSelectProject: PropTypes.func,

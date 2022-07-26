@@ -1,23 +1,22 @@
-import React from "react";
 import PropTypes from "prop-types";
 
 /**
- * @typedef {object} ProjectListItemPropType
+ * @typedef {object} ProjectItemPropType
  * @property {string} projectId
  * @property {string} name
  * @property {(projectId: string) => void} [onSelect]
  */
-export const ProjectListItemProp = {
+export const ProjectItemProp = {
   projectId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
   onSelect: PropTypes.func,
 }
 
 /**
- * @param {ProjectListItemPropType} props 
+ * @param {ProjectItemPropType} props 
  * @returns {React.ReactElement}
  */
-function ProjectListItem(props) {
+function ProjectItem(props) {
   /**
    * @param {React.MouseEvent<HTMLElement>} e 
    */
@@ -38,6 +37,6 @@ function ProjectListItem(props) {
   )
 }
 
-ProjectListItem.propTypes = ProjectListItemProp;
+ProjectItem.propTypes = ProjectItemProp;
 
-export default ProjectListItem;
+export default ProjectItem;

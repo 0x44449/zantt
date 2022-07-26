@@ -1,174 +1,123 @@
 import { useRouter } from 'next/router'
-import Link from 'next/link'
 import { getTasks } from '@/api/task';
 import { getProjects } from '@/api/project';
-import ProjectListItem from '@/components/moo/project/project-list-item';
-import { useEffect, useState } from 'react';
-import TaskListItem from '@/components/moo/task/task-list-item';
+import { Suspense, useEffect, useState } from 'react';
+import ProjectNavBar from '@/layers/moo/project/project-nav-bar';
+import { getProjectFetcher } from "@/layers/moo/project/fetcher";
+import TaskList from '@/layers/moo/task/task-list';
+import { getTaskFetcher } from '@/layers/moo/task/fetcher';
 
 /**
- * @typedef {Zantt.SuspenderActionType<Zantt.ProjectModelType[]>} ProjectFetcher
- * @typedef {Zantt.SuspenderActionType<Zantt.TaskModelType[]>} TaskFetcher
+ * @typedef {object} SelectedStateType
+ * @property {string} projectId
+ * @property {string} taskId
+ * @property {string} workspaceId
  */
 /**
- * @returns {ProjectFetcher}
+ * 
+ * @param {{selectedState: SelectedStateType, projects: Zantt.ProjectModelType[], tasks: Zantt.TaskModelType[]}} props 
+ * @returns {React.ReactElement}
  */
-const getProjectFetcher = () => {
-  /** @type {Zantt.ApiResponse<Zantt.ProjectModelType[]> | null} */
-  let result = null;
-  /** @type {"fetching" | "completed" | "error"} */
-  let state = "fetching";
-  const suspender = getProjects().then(data => {
-    result = data;
-    state = "completed";
-  }).catch(e => {
-    result = e;
-    state = "error";
-  });
-
-  return {
-    read() {
-      if (state === "fetching") {
-        throw suspender;
-      }
-      else if (state === "completed") {
-        return result.data;
-      }
-      else if (state === "error") {
-        throw result;
-      }
-    }
-  }
-}
-/**
- * @param {string} projectId 
- * @returns {TaskFetcher}
- */
-const getTaskFetcher = (projectId) => {
-  /** @type {Zantt.ApiResponse<Zantt.TaskModelType[]> | null} */
-  let result = null;
-  /** @type {"fetching" | "completed" | "error"} */
-  let state = "fetching";
-  const suspender = getTasks(projectId).then(data => {
-    result = data;
-    state = "completed";
-  }).catch(e => {
-    result = e;
-    state = "error";
-  });
-
-  return {
-    read() {
-      if (state === "fetching") {
-        throw suspender;
-      }
-      else if (state === "completed") {
-        return result.data;
-      }
-      else if (state === "error") {
-        throw result;
-      }
-    }
-  }
-}
-
-export default function App() {
+export default function App(props) {
   const router = useRouter();
   /** @type {{slugs?: string[]}} */
   const { slugs } = router.query;
 
-  /**
-   * @typedef {object} SelectedStateType
-   * @property {string} projectId
-   * @property {string} taskId
-   * @property {string} workspaceId
-   */
   /** @type {[SelectedStateType, React.Dispatch<React.SetStateAction<SelectedStateType>>]} */
-  const [selectedState, setSelectedState] = useState();
+  const [selectedState, setSelectedState] = useState({
+    projectId: "",
+    taskId: "",
+    workspaceId: "",
+  });
   /** @type {[Zantt.ProjectModelType[], React.Dispatch<React.SetStateAction<Zantt.ProjectModelType[]>>]} */
   const [projects, setProjects] = useState();
   /** @type {[Zantt.TaskModelType[], React.Dispatch<React.SetStateAction<Zantt.TaskModelType[]>>]} */
   const [tasks, setTasks] = useState();
+
+  /** @type {[import('@/layers/moo/project/fetcher').ProjectFetcher, React.Dispatch<React.SetStateAction<import('@/layers/moo/project/fetcher').ProjectFetcher>>]} */
+  const [projectsFetcher, setProjectsFetcher] = useState(getProjectFetcher());
+  /** @type {[import('@/layers/moo/task/fetcher').TaskFetcher, React.Dispatch<React.SetStateAction<import('@/layers/moo/task/fetcher').TaskFetcher>>]} */
+  const [tasksFetcher, setTasksFetcher] = useState(getTaskFetcher(""));
 
   useEffect(() => {
     if (!router.isReady) {
       console.log("router is not ready");
       return;
     }
+    console.log("router is ready!!");
 
-    /** @type {Zantt.ApiResponse<Zantt.ProjectModelType[]>} */
-    const testProjects = {
-      success: true,
-      data: [{
-        projectId: "1",
-        name: "name1"
-      }, {
-        projectId: "2",
-        name: "name2"
-      }]
-    };
-    /** @type {Zantt.ApiResponse<Zantt.TaskModelType[]>} */
-    const testTasks = {
-      success: true,
-      data: [{
-        taskId: "1",
-        projectId: "1",
-        title: "title1"
-      }, {
-        taskId: "2",
-        projectId: "1",
-        title: "title2"
-      }, {
-        taskId: "3",
-        projectId: "1",
-        title: "title3"
-      }, {
-        taskId: "4",
-        projectId: "1",
-        title: "title4"
-      }, {
-        taskId: "5",
-        projectId: "1",
-        title: "title5"
-      }]
-    };
-    setProjects(testProjects.data);
-    setTasks(testTasks.data);
+    console.log(slugs);
     setSelectedState({
       projectId: slugs[0] || "",
       taskId: slugs[1] || "",
       workspaceId: slugs[2] || "",
     });
+    // setProjectsFetcher(getProjectFetcher());
+    // console.log("set task fetcher -> " + (slugs[0] || ""));
+    // setTasksFetcher(getTaskFetcher(slugs[0] || ""));
   }, [router]);
 
+  useEffect(() => {
+    console.log("set task fetcher -> " + selectedState.projectId);
+    setTasksFetcher(getTaskFetcher(selectedState.projectId));
+  }, [selectedState]);
+
   return (
-    selectedState &&
     <>
-      {projects.map(project => (
-        <div key={project.projectId}>
-          <Link href={`/moo/${project.projectId}`}>
-            <a>
-              <ProjectListItem
-                projectId={project.projectId}
-                name={project.name}
-              />
-            </a>
-          </Link>
-        </div>
-      ))}
-      {tasks.map(task => (
-        <div key={task.taskId}>
-          <Link href={`/moo/${task.projectId}/${task.taskId}`}>
-            <a>
-              <TaskListItem
-                taskId={task.taskId}
-                projectId={task.projectId}
-                title={task.title}
-              />
-            </a>
-          </Link>
-        </div>
-      ))}
+      <Suspense fallback={<div>Loading...</div>}>
+        <ProjectNavBar
+          selectedProjectId={selectedState.projectId}
+          fetcher={projectsFetcher}
+        />
+      </Suspense>
+      <Suspense fallback={<div>Loading...</div>}>
+        <TaskList
+          selectedProjectId={selectedState.projectId}
+          selectedTaskId={selectedState.taskId}
+          fetcher={tasksFetcher}
+        />
+      </Suspense>
     </>
   )
+}
+
+/**
+ * SSR -> remove "xxx_"
+ * @param {import("next").GetServerSidePropsContext} context 
+ * @returns 
+ */
+export async function xxx_getServerSideProps(context) {
+  //TODO: send to 500/404/302
+
+  /** @type {{slugs?: string[]}} */
+  const { slugs } = context.params;
+
+  /** @type {SelectedStateType} */
+  const selectedState = {
+    projectId: slugs[0] || "",
+    taskId: slugs[1] || "",
+    workspaceId: slugs[2] || "",
+  }
+
+  /** @type {Zantt.ProjectModelType[]} */
+  let projects = null;
+  if (selectedState.projectId) {
+    const projectsResponse = await getProjects();
+    projects = projectsResponse.data;
+  }
+
+  /** @type {Zantt.TaskModelType[]} */
+  let tasks = null;
+  if (selectedState.taskId) {
+    const tasksResponse = await getTasks(selectedState.taskId);
+    tasks = tasksResponse.data;
+  }
+
+  return {
+    props: {
+      selectedState: selectedState,
+      projects: projects,
+      tasks: tasks,
+    }
+  }
 }

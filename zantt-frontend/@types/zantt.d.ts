@@ -1,7 +1,7 @@
 export as namespace Zantt;
 declare namespace Zantt {
   type SuspenderActionType<T = any> = {
-    read: () => T
+    fetch: () => T
   }
 
   type ApiResponse<T = any> = {

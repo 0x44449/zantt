@@ -1,14 +1,13 @@
-import React from "react";
 import PropTypes from "prop-types"
 
 /**
- * @typedef {object} TaskListItemPropType
+ * @typedef {object} TaskItemPropType
  * @property {string} taskId
  * @property {string} projectId
  * @property {string} title
  * @property {(projectId: string) => void} [onSelect]
  */
-export const TaskListItemProp = {
+export const TaskItemProp = {
   taskId: PropTypes.string.isRequired,
   projectId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
@@ -16,10 +15,10 @@ export const TaskListItemProp = {
 }
 
 /**
- * @param {TaskListItemPropType} props 
+ * @param {TaskItemPropType} props 
  * @returns {React.ReactElement}
  */
-function TaskListItem(props) {
+function TaskItem(props) {
   /**
    * @param {React.MouseEvent<HTMLElement>} e 
    */
@@ -40,6 +39,6 @@ function TaskListItem(props) {
   )
 }
 
-TaskListItem.propTypes = TaskListItemProp;
+TaskItem.propTypes = TaskItemProp;
 
-export default TaskListItem;
+export default TaskItem;

@@ -4,11 +4,15 @@ import ProjectNavBar from '@/apps/moo/controls/project-nav-bar';
 import TaskList from '@/apps/moo/controls/task-list';
 import { getProjectsCache, getProjectsFetcher } from "@/apps/moo/fetchers/project-fetcher";
 import { getTasksCache, getTasksFetcher } from '@/apps/moo/fetchers/task-fetcher';
+import { QueryClient, QueryClientProvider, useQuery, useQueryClient } from '@tanstack/react-query';
+import { getProjects } from '@/api/project';
+
+const queryClient = new QueryClient();
 
 /**
  * @returns {React.ReactElement}
  */
-export default function App() {
+export default function MooApp() {
   const router = useRouter();
   /** @type {{slugs?: string[]}} */
   const { slugs } = router.query;
@@ -20,16 +24,10 @@ export default function App() {
   /** @type {[string, React.Dispatch<React.SetStateAction<string>>]} */
   const [workspaceId, setWorkspaceId] = useState("");
 
-  /** @type {import('@/apps/moo/fetchers/project-fetcher').ProjectFetcher} */
-  const projectsFetcher = useMemo(() => {
-    console.log("projectsFetcher memoize");
-    return getProjectsFetcher();
-  }, []);
-  /** @type {import('@/apps/moo/fetchers/task-fetcher').TaskFetcher} */
-  const tasksFetcher = useMemo(() => {
-    console.log("tasksFetcher memoize");
-    return getTasksFetcher(projectId);
-  }, [projectId]);
+  /** @type {[Zantt.ProjectModelType[], React.Dispatch<React.SetStateAction<Zantt.ProjectModelType[]>>]} */
+  const [projects, setProjects] = useState(null);
+  /** @type {[Zantt.TaskModelType[], React.Dispatch<React.SetStateAction<Zantt.TaskModelType[]>>]} */
+  const [tasks, setTasks] = useState(null);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -42,26 +40,32 @@ export default function App() {
     const selectedTaskId = slugs[1] || "";
     const selectedWorkspaceId = slugs[2] || "";
 
+    if (projectId !== selectedProjectId) {
+      setTasks(null);
+    }
+
     setProjectId(selectedProjectId);
     setTaskId(selectedTaskId);
     setWorkspaceId(selectedWorkspaceId);
   }, [router]);
 
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
       <Suspense fallback={<div>Loading Global...</div>}>
         <ProjectNavBar
           projectId={projectId}
-          fetcher={projectsFetcher}
+          projects={projects}
+          setProjects={setProjects}
         />
         <Suspense fallback={<div>Loading...</div>}>
           <TaskList
             projectId={projectId}
             taskId={taskId}
-            fetcher={tasksFetcher}
+            tasks={tasks}
+            setTasks={setTasks}
           />
         </Suspense>
       </Suspense>
-    </>
+      </QueryClientProvider>
   )
 }

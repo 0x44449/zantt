@@ -1,19 +1,21 @@
+import { getTasks } from "@/api/task";
 import TaskItem from "@/apps/moo/components/task/task-item";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import PropTypes from "prop-types";
+import { useEffect } from "react";
 
 /**
  * @typedef {object} TaskListPropType
  * @property {string} projectId
  * @property {string} taskId
- * @property {import("../fetchers/task-fetcher").TaskFetcher} [fetcher]
- * @property {Zantt.TaskModelType[]} [tasks]
+ * @property {React.Dispatch<React.SetStateAction<Zantt.TaskModelType[]>>} setTasks
+ * @property {Zantt.TaskModelType[]} tasks
  * @property {(projectId: string, taskId: string) => void} [onSelectTask]
  */
 const TaskListProp = {
   projectId: PropTypes.string.isRequired,
   taskId: PropTypes.string.isRequired,
-  fetcher: PropTypes.object,
   tasks: PropTypes.array,
   onSelectTask: PropTypes.func,
 }
@@ -23,7 +25,20 @@ const TaskListProp = {
  * @returns {React.ReactElement}
  */
 function TaskList(props) {
-  const tasks = props.tasks ? props.tasks : props.fetcher.fetch();
+  const { data, isFetched } = useQuery(["task/taks", props.projectId], async () => {
+    const response = await getTasks(props.projectId);
+    return response.data;
+  }, {
+    suspense: true,
+  });
+
+  useEffect(() => {
+    if (isFetched) {
+      props.setTasks(data);
+    }
+  }, [data]);
+
+  const tasks = props.tasks ? props.tasks : data;
 
   return (
     <>

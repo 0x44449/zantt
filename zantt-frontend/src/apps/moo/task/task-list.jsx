@@ -24,7 +24,6 @@ const TaskListProp = {
  */
 function TaskList(props) {
   const tasks = props.tasks ? props.tasks : props.fetcher.fetch();
-  console.log("task list render");
 
   return (
     <>

@@ -23,7 +23,6 @@ export const ProjectNavBarProp = {
 function ProjectNavBar(props) {
   /** @type {Zantt.ProjectModelType[]} */
   const projects = props.projects ? props.projects : props.fetcher.fetch();
-  console.log("project nav bar render");
 
   return (
     <>

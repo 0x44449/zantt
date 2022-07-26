@@ -6,7 +6,7 @@ import { getProjects } from "@/api/project";
 /**
  * @returns {ProjectFetcher}
  */
-export const getProjectFetcher = () => {
+export const getProjectsFetcher = () => {
   /** @type {Zantt.ApiResponse<Zantt.ProjectModelType[]> | null} */
   let result = null;
   /** @type {"fetching" | "completed" | "error"} */
@@ -18,12 +18,11 @@ export const getProjectFetcher = () => {
   }).catch(e => {
     result = e;
     state = "error";
-    console.log("project fetch error");
   });
 
   return {
     fetch() {
-      console.log("poject fecther state: " + state);
+      console.log(`projects fetcher state: ${state}`);
       if (state === "fetching") {
         throw suspender;
       }

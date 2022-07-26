@@ -9,11 +9,11 @@ import { getTasks } from "@/api/task";
  * @param {string} projectId 
  * @returns {TaskFetcher}
  */
-export const getTaskFetcher = (projectId) => {
+export const getTasksFetcher = (projectId) => {
   if (!projectId) {
     return {
       fetch() {
-        console.log("task fetcher returns empty");
+        console.log(`tasks fetch return empty`);
         return [];
       }
     }
@@ -26,16 +26,14 @@ export const getTaskFetcher = (projectId) => {
   const suspender = getTasks(projectId).then(data => {
     result = data;
     state = "completed";
-    // console.log("task fetch completed");
   }).catch(e => {
     result = e;
     state = "error";
-    console.log("task fetch error");
   });
 
   return {
     fetch() {
-      console.log("task fetcher state: " + state);
+      console.log(`tasks fetcher state: ${state}`);
       if (state === "fetching") {
         throw suspender;
       }

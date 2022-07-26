@@ -30,6 +30,7 @@ function TaskList(props) {
     return response.data;
   }, {
     suspense: true,
+    enabled: !props.tasks,
   });
 
   useEffect(() => {

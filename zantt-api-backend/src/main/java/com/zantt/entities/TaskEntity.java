@@ -1,8 +1,19 @@
-package com.zantt.models;
+package com.zantt.entities;
 
-public class TaskModel {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name = "tasks")
+public class TaskEntity {
+    @Id
+    @Column(name = "task_id")
     private String taskId;
+    @Column(name = "project_id")
     private String projectId;
+    @Column(name = "title")
     private String title;
 
     public String getTaskId() {

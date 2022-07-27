@@ -25,9 +25,9 @@ export default function MooApp() {
   const [workspaceId, setWorkspaceId] = useState("");
 
   /** @type {[Zantt.ProjectModelType[], React.Dispatch<React.SetStateAction<Zantt.ProjectModelType[]>>]} */
-  const [projects, setProjects] = useState(null);
+  const [projects, setProjects] = useState();
   /** @type {[Zantt.TaskModelType[], React.Dispatch<React.SetStateAction<Zantt.TaskModelType[]>>]} */
-  const [tasks, setTasks] = useState(null);
+  const [tasks, setTasks] = useState();
 
   useEffect(() => {
     if (!router.isReady) {
@@ -36,13 +36,9 @@ export default function MooApp() {
     }
     console.log("router is ready!!");
 
-    const selectedProjectId = slugs[0] || "";
-    const selectedTaskId = slugs[1] || "";
-    const selectedWorkspaceId = slugs[2] || "";
-
-    if (projectId !== selectedProjectId) {
-      setTasks(null);
-    }
+    const selectedProjectId = slugs ? slugs[0] : "";
+    const selectedTaskId = slugs ? (slugs[1] || "") : "";
+    const selectedWorkspaceId = slugs ? (slugs[2] || "") : "";
 
     setProjectId(selectedProjectId);
     setTaskId(selectedTaskId);
@@ -66,6 +62,6 @@ export default function MooApp() {
           />
         </Suspense>
       </Suspense>
-      </QueryClientProvider>
+    </QueryClientProvider>
   )
 }

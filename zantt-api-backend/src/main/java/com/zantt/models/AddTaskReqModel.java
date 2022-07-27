@@ -1,8 +1,8 @@
 package com.zantt.models;
 
-public class ProjectModel {
+public class AddTaskReqModel {
     private String projectId;
-    private String name;
+    private String title;
 
     public String getProjectId() {
         return projectId;
@@ -12,11 +12,11 @@ public class ProjectModel {
         this.projectId = projectId;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 }

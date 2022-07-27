@@ -7,6 +7,8 @@
       "esnext"
     ],
     "allowJs": true,
+    "checkJs": true,
+    "strictNullChecks": false, // for js or jsx
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
@@ -26,7 +28,9 @@
   "include": [
     "next-env.d.ts",
     "**/*.ts",
-    "**/*.tsx"
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx"
   ],
   "exclude": [
     "node_modules"

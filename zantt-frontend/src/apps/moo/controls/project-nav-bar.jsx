@@ -24,21 +24,18 @@ export const ProjectNavBarProp = {
  * @returns {React.ReactElement}
  */
 function ProjectNavBar(props) {
-  const { data, isFetched } = useQuery(["project/projects"], async () => {
+  const { data } = useQuery(["project/projects"], async () => {
     const response = await getProjects();
     return response.data;
   }, {
     suspense: true,
-    enabled: !props.projects,
   });
 
   useEffect(() => {
-    if (isFetched) {
-      props.setProjects(data);
-    }
+    props.setProjects(data);
   }, [data]);
 
-  const projects = props.projects ? props.projects : data;
+  const projects = typeof props.projects === "undefined" ? data : props.projects;
 
   return (
     <>

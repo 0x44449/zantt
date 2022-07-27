@@ -30,7 +30,6 @@ declare namespace Zantt {
     taskId: string,
     projectId: string,
     timelineType: string,
-    fields: TimelineFieldModelType[],
   }
   type TimelineFieldModelType = {
     fieldType: string,

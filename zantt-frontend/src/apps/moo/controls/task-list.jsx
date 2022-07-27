@@ -25,21 +25,18 @@ const TaskListProp = {
  * @returns {React.ReactElement}
  */
 function TaskList(props) {
-  const { data, isFetched } = useQuery(["task/taks", props.projectId], async () => {
+  const { data } = useQuery(["task/taks", props.projectId], async () => {
     const response = await getTasks(props.projectId);
     return response.data;
   }, {
     suspense: true,
-    enabled: !props.tasks,
   });
 
   useEffect(() => {
-    if (isFetched) {
-      props.setTasks(data);
-    }
+    props.setTasks(data);
   }, [data]);
 
-  const tasks = props.tasks ? props.tasks : data;
+  const tasks = typeof props.tasks === "undefined" ? data : props.tasks;
 
   return (
     <>

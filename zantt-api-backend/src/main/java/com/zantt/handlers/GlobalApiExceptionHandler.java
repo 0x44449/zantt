@@ -1,4 +1,4 @@
-package com.zantt;
+package com.zantt.handlers;
 
 import com.zantt.exceptions.WellKnownApiException;
 import com.zantt.models.ApiResponse;
@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 @RestControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalApiExceptionHandler extends ResponseEntityExceptionHandler {
     @ExceptionHandler(value = { WellKnownApiException.class })
     protected ResponseEntity<ApiResponse<Object>> handleWellKnownApiException(WellKnownApiException e) {
         var response = new ApiResponse<>(null);

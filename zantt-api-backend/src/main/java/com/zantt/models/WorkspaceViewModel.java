@@ -4,7 +4,16 @@ public class WorkspaceViewModel {
     private String projectId;
     private String taskId;
     private String workspaceId;
+    private String title;
     private String contents;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getProjectId() {
         return projectId;

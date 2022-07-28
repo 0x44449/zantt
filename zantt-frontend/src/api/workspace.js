@@ -1,16 +1,14 @@
 import axios from "axios";
 
 /**
- * @param {string} projectId 
  * @param {string} taskId 
- * @return {Promise<Zantt.ApiResponse<Zantt.WorkspaceModelType>>}
+ * @return {Promise<Zantt.ApiResponse<Zantt.WorkspaceModelType[]>>}
  */
- export async function getWorkspace(projectId, taskId) {
+ export async function getWorkspaces(taskId) {
   console.log("* call getWorkspace");
-  /** @type {import("axios").AxiosResponse<Zantt.ApiResponse<Zantt.WorkspaceModelType>>} */
-  const response = await axios.get("/workspace", {
+  /** @type {import("axios").AxiosResponse<Zantt.ApiResponse<Zantt.WorkspaceModelType[]>>} */
+  const response = await axios.get("/workspace/workspaces", {
     params: {
-      projectId: projectId,
       taskId: taskId,
     }
   });

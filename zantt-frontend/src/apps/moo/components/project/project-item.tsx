@@ -15,10 +15,8 @@ const ProjectItem: FC<ProjectItemProps> = ({ projectId, name, onSelect }): React
   };
 
   return (
-    <div>
-      <div onClick={handleItemClick}>
-        <div>{name}</div>
-      </div>
+    <div className="p-0" onClick={handleItemClick}>
+      <p className="truncate">{name}</p>
     </div>
   )
 }

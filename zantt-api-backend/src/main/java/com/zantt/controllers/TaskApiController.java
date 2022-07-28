@@ -13,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/task")
+@CrossOrigin("*")
 public class TaskApiController {
     @Autowired
     TaskService taskService;
@@ -26,7 +27,7 @@ public class TaskApiController {
     }
 
     @GetMapping("/tasks")
-    public ResponseEntity<ApiResponse<List<TaskViewModel>>> getTasks(@RequestParam("projectId") String projectId) {
+    public ResponseEntity<ApiResponse<List<TaskViewModel>>> getTasksByProjectId(@RequestParam("projectId") String projectId) {
         var tasks = taskService .getTasksByProjectId(projectId);
         var result = TaskMapper.Instance.toViewModels(tasks);
         var response = new ApiResponse<>(result);

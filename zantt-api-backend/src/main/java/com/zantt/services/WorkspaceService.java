@@ -8,6 +8,7 @@ import com.zantt.repositories.WorkspaceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -17,20 +18,16 @@ public class WorkspaceService {
     @Autowired
     TaskRepository taskRepository;
 
-    public WorkspaceEntity getWorkspaceByTaskId(String taskId) {
+    public List<WorkspaceEntity> getWorkspacesByTaskId(String taskId) {
         var task = taskRepository.findById(taskId);
         if (task.isEmpty()) {
             throw new WellKnownApiException("Can not found task", "TASK_NOT_FOUND");
         }
 
-        var workspace = workspaceRepository.findOptionalByTaskId(taskId);
-        if (workspace.isEmpty()) {
-            return null;
-        }
-        return workspace.get();
+        return workspaceRepository.findByTaskId(taskId);
     }
 
-    public WorkspaceEntity addWorkspace(String taskId, String contents) {
+    public WorkspaceEntity addWorkspace(String taskId, String title, String contents) {
         var task = taskRepository.findById(taskId);
         if (task.isEmpty()) {
             throw new WellKnownApiException("Can not found task", "TASK_NOT_FOUND");
@@ -42,8 +39,13 @@ public class WorkspaceService {
         workspace.setWorkspaceId(workspaceId);
         workspace.setProjectId(task.get().getProjectId());
         workspace.setTaskId(taskId);
+        workspace.setTitle(title);
         workspace.setContents(contents);
 
         return workspaceRepository.save(workspace);
+    }
+
+    public void deleteWorkspace(String workspaceId) {
+        workspaceRepository.deleteById(workspaceId);
     }
 }

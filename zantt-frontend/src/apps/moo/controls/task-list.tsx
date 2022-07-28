@@ -1,35 +1,38 @@
 import { getTasks } from "@/api/task";
 import TaskItem from "@/apps/moo/components/task/task-item";
+import { setTasks } from "@/apps/moo/features/task-slice";
+import { useAppDispatch, useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import PropTypes from "prop-types";
-import { Dispatch, FC, ReactElement, SetStateAction, useEffect } from "react";
+import { FC, ReactElement, useEffect } from "react";
 
 type TaskListProps = {
-  projectId: string;
-  taskId: string;
-  setTasks: Dispatch<SetStateAction<Zantt.TaskModelType[]>>;
-  tasks: Zantt.TaskModelType[];
   onSelectTask?: (projectId: string, taskId: string) => void;
 }
 
 const TaskList: FC<TaskListProps> = (props): ReactElement => {
-  const { data } = useQuery(["task/taks", props.projectId], async () => {
-    const response = await getTasks(props.projectId);
+  const projectId = useAppSelector((state) => state.project.projectId);
+  const tasks = useAppSelector((state) => state.task.tasks);
+  const dispatch = useAppDispatch();
+
+  const { data, status } = useQuery(["task/tasks", projectId], async () => {
+    const response = await getTasks(projectId);
     return response.data;
   }, {
     suspense: true,
+    enabled: projectId !== ""
   });
 
   useEffect(() => {
     if (typeof data !== "undefined") {
-      props.setTasks(data);
+      dispatch(setTasks(data));
     }
   }, [data]);
 
   return (
     <>
-      {props.tasks.map(task => (
+      {tasks.map(task => (
         <div key={task.taskId}>
           <Link href={`/moo/${task.projectId}/${task.taskId}`}>
             <a>
@@ -45,12 +48,5 @@ const TaskList: FC<TaskListProps> = (props): ReactElement => {
     </>
   )
 }
-
-TaskList.propTypes = {
-  projectId: PropTypes.string.isRequired,
-  taskId: PropTypes.string.isRequired,
-  tasks: PropTypes.array.isRequired,
-  onSelectTask: PropTypes.func,
-};
 
 export default TaskList;

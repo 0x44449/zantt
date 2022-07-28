@@ -15,8 +15,18 @@ public class WorkspaceEntity {
     private String taskId;
     @Column(name = "project_Id")
     private String projectId;
+    @Column(name = "title")
+    private String title;
     @Column(name = "contents")
     private String contents;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
 
     public String getWorkspaceId() {
         return workspaceId;

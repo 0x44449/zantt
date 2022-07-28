@@ -1,7 +1,7 @@
 import { FC, ReactElement, Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/router"
 import ProjectNavBar from "@/apps/moo/controls/project-nav-bar";
-import TaskList from "@/apps/moo/controls/task-list";
+import TaskList, { TaskListLoading } from "@/apps/moo/controls/task-list";
 import { useAppDispatch } from "@/apps/moo/hooks/typed-redux-hook";
 import { setProjectId } from "@/apps/moo/features/project-slice";
 import { setTaskId } from "@/apps/moo/features/task-slice";
@@ -36,8 +36,8 @@ const MooAppMain: FC = (): ReactElement => {
           <ProjectNavBar />
         </Suspense>
       </div>
-      <div className="flex flex-col w-80">
-        <Suspense fallback={<div>Loading Tasks...</div>}>
+      <div className="flex flex-col w-96">
+        <Suspense fallback={<TaskListLoading />}>
           <TaskList />
         </Suspense>
       </div>

@@ -16,9 +16,9 @@ const TaskItem: FC<TaskItemProps> = ({ taskId, projectId, title, onSelect }): Re
   };
 
   return (
-    <div>
+    <div className="flex flex-col mx-4 my-4">
       <div onClick={handleItemClick}>
-        <div>{title}</div>
+        <div className="text-slate-50">{title}</div>
       </div>
     </div>
   )

@@ -31,21 +31,27 @@ const TaskList: FC<TaskListProps> = (props): ReactElement => {
   }, [data]);
 
   return (
-    <>
+    <div className="flex flex-col grow bg-slate-600">
       {tasks.map(task => (
-        <div key={task.taskId}>
-          <Link href={`/moo/${task.projectId}/${task.taskId}`}>
-            <a>
-              <TaskItem
-                taskId={task.taskId}
-                projectId={task.projectId}
-                title={task.title}
-              />
-            </a>
-          </Link>
-        </div>
+        <Link href={`/moo/${task.projectId}/${task.taskId}`}>
+          <a key={task.taskId} className="w-full divide-y divide-slate-50 hover:bg-pink-300">
+            <TaskItem
+              taskId={task.taskId}
+              projectId={task.projectId}
+              title={task.title}
+            />
+          </a>
+        </Link>
       ))}
-    </>
+    </div>
+  )
+}
+
+export const TaskListLoading: FC = (): ReactElement => {
+  return (
+    <div className="flex flex-col grow bg-slate-600">
+      <p className="text-slate-50">Loading...</p>
+    </div>
   )
 }
 

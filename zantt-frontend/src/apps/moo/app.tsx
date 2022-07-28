@@ -1,10 +1,10 @@
-import { FC, ReactElement, Suspense, useEffect, useState } from 'react';
-import { useRouter } from 'next/router'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import axios from 'axios';
-import { Provider } from 'react-redux';
-import { store } from '@/apps/moo/stores';
-import MooAppMain from '@/apps/moo/app-main';
+import { FC, ReactElement, Suspense, useEffect, useState } from "react";
+import { useRouter } from "next/router"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import axios from "axios";
+import { Provider } from "react-redux";
+import MooAppMain from "@/apps/moo/app-main";
+import { store } from "@/apps/moo/stores";
 
 axios.defaults.baseURL = "http://localhost:8899";
 

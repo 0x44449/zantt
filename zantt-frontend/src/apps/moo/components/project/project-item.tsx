@@ -7,6 +7,16 @@ type ProjectItemProps = {
   onSelect?: (projectId: string) => void;
 }
 
+const getDisplayName = (name: string) => {
+  if (!name) {
+    return "-";
+  }
+  if (name.length === 1) {
+    return name;
+  }
+  return `${name[0]}${name[1]}`;
+}
+
 const ProjectItem: FC<ProjectItemProps> = ({ projectId, name, onSelect }): ReactElement => {
   const handleItemClick = () => {
     if (onSelect) {
@@ -14,9 +24,14 @@ const ProjectItem: FC<ProjectItemProps> = ({ projectId, name, onSelect }): React
     }
   };
 
+  const displayName = getDisplayName(name);
+
   return (
-    <div className="p-0" onClick={handleItemClick}>
-      <p className="truncate">{name}</p>
+    <div className="flex flex-col my-5 items-center">
+      <div className="flex flex-col justify-center items-center w-11 h-11 bg-orange-400 rounded-full" onClick={handleItemClick}>
+        <span className="truncate uppercase text-base font-medium text-slate-50">{displayName}</span>
+      </div>
+      <p className="pt-1 text-sm font-normal text-slate-50">{name}</p>
     </div>
   )
 }

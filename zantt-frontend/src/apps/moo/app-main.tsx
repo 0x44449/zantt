@@ -1,11 +1,11 @@
-import { FC, ReactElement, Suspense, useEffect, useState } from 'react';
-import { useRouter } from 'next/router'
-import ProjectNavBar from '@/apps/moo/controls/project-nav-bar';
-import TaskList from '@/apps/moo/controls/task-list';
-import { useAppDispatch } from '@/apps/moo/hooks/typed-redux-hook';
-import { setProjectId } from '@/apps/moo/features/project-slice';
-import { setTaskId } from '@/apps/moo/features/task-slice';
-import { setWorkspaceId } from '@/apps/moo/features/workspace-slice';
+import { FC, ReactElement, Suspense, useEffect, useState } from "react";
+import { useRouter } from "next/router"
+import ProjectNavBar from "@/apps/moo/controls/project-nav-bar";
+import TaskList from "@/apps/moo/controls/task-list";
+import { useAppDispatch } from "@/apps/moo/hooks/typed-redux-hook";
+import { setProjectId } from "@/apps/moo/features/project-slice";
+import { setTaskId } from "@/apps/moo/features/task-slice";
+import { setWorkspaceId } from "@/apps/moo/features/workspace-slice";
 
 const MooAppMain: FC = (): ReactElement => {
   const router = useRouter();
@@ -30,18 +30,18 @@ const MooAppMain: FC = (): ReactElement => {
   }, [router]);
 
   return (
-    <div className="w-full flex flex-row">
-      <div className="w-14 flex">
+    <div className="w-full h-full flex flex-row">
+      <div className="flex flex-col w-24">
         <Suspense fallback={<div>Loading Projects...</div>}>
           <ProjectNavBar />
         </Suspense>
       </div>
-      <div className="w-80">
+      <div className="flex flex-col w-80">
         <Suspense fallback={<div>Loading Tasks...</div>}>
           <TaskList />
         </Suspense>
       </div>
-      <div className="w-full">
+      <div className="flex flex-col grow">
 
       </div>
     </div>

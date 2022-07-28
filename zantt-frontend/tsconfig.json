@@ -8,7 +8,7 @@
     ],
     "allowJs": true,
     "checkJs": true,
-    "strictNullChecks": false, // for js or jsx
+    "strictNullChecks": true, // for js or jsx
     "skipLibCheck": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,

@@ -3,28 +3,17 @@ import TaskItem from "@/apps/moo/components/task/task-item";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import PropTypes from "prop-types";
-import { useEffect } from "react";
+import { Dispatch, FC, ReactElement, SetStateAction, useEffect } from "react";
 
-/**
- * @typedef {object} TaskListPropType
- * @property {string} projectId
- * @property {string} taskId
- * @property {React.Dispatch<React.SetStateAction<Zantt.TaskModelType[]>>} setTasks
- * @property {Zantt.TaskModelType[]} tasks
- * @property {(projectId: string, taskId: string) => void} [onSelectTask]
- */
-const TaskListProp = {
-  projectId: PropTypes.string.isRequired,
-  taskId: PropTypes.string.isRequired,
-  tasks: PropTypes.array,
-  onSelectTask: PropTypes.func,
+type TaskListProps = {
+  projectId: string;
+  taskId: string;
+  setTasks: Dispatch<SetStateAction<Zantt.TaskModelType[]>>;
+  tasks: Zantt.TaskModelType[];
+  onSelectTask?: (projectId: string, taskId: string) => void;
 }
 
-/**
- * @param {TaskListPropType} props 
- * @returns {React.ReactElement}
- */
-function TaskList(props) {
+const TaskList: FC<TaskListProps> = (props): ReactElement => {
   const { data } = useQuery(["task/taks", props.projectId], async () => {
     const response = await getTasks(props.projectId);
     return response.data;
@@ -33,14 +22,14 @@ function TaskList(props) {
   });
 
   useEffect(() => {
-    props.setTasks(data);
+    if (typeof data !== "undefined") {
+      props.setTasks(data);
+    }
   }, [data]);
-
-  const tasks = typeof props.tasks === "undefined" ? data : props.tasks;
 
   return (
     <>
-      {tasks.map(task => (
+      {props.tasks.map(task => (
         <div key={task.taskId}>
           <Link href={`/moo/${task.projectId}/${task.taskId}`}>
             <a>
@@ -57,6 +46,11 @@ function TaskList(props) {
   )
 }
 
-TaskList.propTypes = TaskListProp;
+TaskList.propTypes = {
+  projectId: PropTypes.string.isRequired,
+  taskId: PropTypes.string.isRequired,
+  tasks: PropTypes.array.isRequired,
+  onSelectTask: PropTypes.func,
+};
 
 export default TaskList;

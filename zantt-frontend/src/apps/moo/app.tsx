@@ -1,33 +1,21 @@
-import { Suspense, useEffect, useMemo, useState } from 'react';
+import { FC, ReactElement, Suspense, useEffect, useState } from 'react';
 import { useRouter } from 'next/router'
 import ProjectNavBar from '@/apps/moo/controls/project-nav-bar';
 import TaskList from '@/apps/moo/controls/task-list';
-import { getProjectsCache, getProjectsFetcher } from "@/apps/moo/fetchers/project-fetcher";
-import { getTasksCache, getTasksFetcher } from '@/apps/moo/fetchers/task-fetcher';
-import { QueryClient, QueryClientProvider, useQuery, useQueryClient } from '@tanstack/react-query';
-import { getProjects } from '@/api/project';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const queryClient = new QueryClient();
 
-/**
- * @returns {React.ReactElement}
- */
-export default function MooApp() {
+const MooApp: FC<{}> = (props): ReactElement => {
   const router = useRouter();
-  /** @type {{slugs?: string[]}} */
   const { slugs } = router.query;
 
-  /** @type {[string, React.Dispatch<React.SetStateAction<string>>]} */
   const [projectId, setProjectId] = useState("");
-  /** @type {[string, React.Dispatch<React.SetStateAction<string>>]} */
   const [taskId, setTaskId] = useState("");
-  /** @type {[string, React.Dispatch<React.SetStateAction<string>>]} */
   const [workspaceId, setWorkspaceId] = useState("");
 
-  /** @type {[Zantt.ProjectModelType[], React.Dispatch<React.SetStateAction<Zantt.ProjectModelType[]>>]} */
-  const [projects, setProjects] = useState();
-  /** @type {[Zantt.TaskModelType[], React.Dispatch<React.SetStateAction<Zantt.TaskModelType[]>>]} */
-  const [tasks, setTasks] = useState();
+  const [projects, setProjects] = useState([] as Zantt.ProjectModelType[]);
+  const [tasks, setTasks] = useState([] as Zantt.TaskModelType[]);
 
   useEffect(() => {
     if (!router.isReady) {
@@ -65,3 +53,5 @@ export default function MooApp() {
     </QueryClientProvider>
   )
 }
+
+export default MooApp;

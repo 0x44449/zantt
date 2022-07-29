@@ -1,11 +1,17 @@
 import { FC, ReactElement, Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/router"
-import ProjectNavBar from "@/apps/moo/controls/project/project-nav-bar";
+import ProjectNavBar from "@/apps/moo/components/project/project-nav-bar";
 import TaskList, { TaskListLoading } from "@/apps/moo/controls/task/task-list";
-import { useAppDispatch } from "@/apps/moo/hooks/typed-redux-hook";
-import { setProjectId } from "@/apps/moo/features/project-slice";
-import { setTaskId } from "@/apps/moo/features/task-slice";
+import { useAppDispatch, useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
+import { setProjectId, setProjectQueryStatus, setProjects } from "@/apps/moo/features/project-slice";
+import { setTaskId, setTaskQueryStatus, setTasks } from "@/apps/moo/features/task-slice";
 import { setWorkspaceId } from "@/apps/moo/features/workspace-slice";
+import LeftSideBar from "@/apps/moo/layouts/left-side-bar";
+import LeftPanel from "@/apps/moo/layouts/left-panel";
+import RightPanel from "@/apps/moo/layouts/right-panel";
+import { useQuery } from "@tanstack/react-query";
+import { getProjects } from "@/api/project";
+import { getTasks } from "@/api/task";
 
 const MooAppMain: FC = (): ReactElement => {
   const router = useRouter();
@@ -13,12 +19,42 @@ const MooAppMain: FC = (): ReactElement => {
 
   const dispatch = useAppDispatch();
 
+  /// * Query Project
+  const { data: remoteProjects, status: projectQueryStatus } = useQuery(["/project/projects"], async () => {
+    const response = await getProjects();
+    return response.data;
+  });
+  useEffect(() => {
+    if (typeof remoteProjects !== "undefined") {
+      dispatch(setProjects(remoteProjects));
+    }
+  }, [remoteProjects]);
+  useEffect(() => {
+    console.log(projectQueryStatus)
+    dispatch(setProjectQueryStatus(projectQueryStatus));
+  }, [projectQueryStatus]);
+
+  /// * Query Task
+  const projectId = useAppSelector((state) => state.project.projectId);
+  const { data: remoteTasks, status: taskQueryStatus } = useQuery(["/task/tasks", projectId], async () => {
+    const response = await getTasks(projectId);
+    return response.data;
+  }, {
+    enabled: projectId !== ""
+  });
+  useEffect(() => {
+    if (typeof remoteTasks !== "undefined") {
+      dispatch(setTasks(remoteTasks));
+    }
+  }, [remoteTasks]);
+  useEffect(() => {
+    dispatch(setTaskQueryStatus(taskQueryStatus));
+  }, [taskQueryStatus]);
+
   useEffect(() => {
     if (!router.isReady) {
-      console.log("router is not ready");
       return;
     }
-    console.log("router is ready!!");
 
     const selectedProjectId = slugs ? (slugs[0] || "") : "";
     const selectedTaskId = slugs ? (slugs[1] || "") : "";
@@ -33,16 +69,16 @@ const MooAppMain: FC = (): ReactElement => {
     <div className="w-full h-full">
       <div className="flex flex-row h-full">
         <div className="w-24">
-          <Suspense fallback={<div>Loading Projects...</div>}>
-            <ProjectNavBar />
-          </Suspense>
+          <LeftSideBar />
         </div>
         <div className="w-96">
-          <Suspense fallback={<TaskListLoading />}>
+          {/* <Suspense fallback={<TaskListLoading />}>
             <TaskList />
-          </Suspense>
+          </Suspense> */}
+          <LeftPanel />
         </div>
         <div className="grow">
+          <RightPanel />
         </div>
       </div>
     </div>

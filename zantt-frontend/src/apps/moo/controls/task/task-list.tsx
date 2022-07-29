@@ -4,7 +4,6 @@ import { setTasks } from "@/apps/moo/features/task-slice";
 import { useAppDispatch, useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import PropTypes from "prop-types";
 import { FC, ReactElement, useEffect } from "react";
 
 type TaskListProps = {
@@ -16,7 +15,7 @@ const TaskList: FC<TaskListProps> = (props): ReactElement => {
   const tasks = useAppSelector((state) => state.task.tasks);
   const dispatch = useAppDispatch();
 
-  const { data, status } = useQuery(["task/tasks", projectId], async () => {
+  const { data } = useQuery(["task/tasks", projectId], async () => {
     const response = await getTasks(projectId);
     return response.data;
   }, {
@@ -31,18 +30,20 @@ const TaskList: FC<TaskListProps> = (props): ReactElement => {
   }, [data]);
 
   return (
-    <div className="flex flex-col grow bg-slate-600">
-      {tasks.map(task => (
-        <Link href={`/moo/${task.projectId}/${task.taskId}`}>
-          <a key={task.taskId} className="w-full divide-y divide-slate-50 hover:bg-pink-300">
-            <TaskItem
-              taskId={task.taskId}
-              projectId={task.projectId}
-              title={task.title}
-            />
-          </a>
-        </Link>
-      ))}
+    <div className="h-full bg-slate-600 overflow-y-auto">
+      <div className="flex flex-col divide-y divide-slate-50">
+        {tasks.map(task => (
+          <Link key={task.taskId} href={`/moo/${task.projectId}/${task.taskId}`}>
+            <a className="w-full hover:bg-pink-300">
+              <TaskItem
+                taskId={task.taskId}
+                projectId={task.projectId}
+                title={task.title}
+              />
+            </a>
+          </Link>
+        ))}
+      </div>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import "@/styles/globals.css"
+import "@/styles/globals.css";
 
 /**
  * @param {any} param0 

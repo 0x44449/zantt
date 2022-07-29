@@ -1,4 +1,5 @@
 import { getProjects } from "@/api/project";
+import ProjectAddButton from "@/apps/moo/components/project/project-add-button";
 import ProjectItem from "@/apps/moo/components/project/project-item";
 import { setProjects } from "@/apps/moo/features/project-slice";
 import { useAppDispatch, useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
@@ -29,18 +30,23 @@ const ProjectNavBar: FC<ProjectNavBarProps> = (props): ReactElement => {
   }, [data]);
 
   return (
-    <div className="flex flex-col grow bg-slate-800">
-      <div className="flex flex-col items-center">
-        {projects.map(project => (
-          <Link key={project.projectId} href={`/moo/${project.projectId}`}>
-            <a className={`w-full hover:bg-pink-300 ${project.projectId === projectId ? " bg-pink-500" : ""}`}>
-              <ProjectItem
-                projectId={project.projectId}
-                name={project.name}
-              />
-            </a>
-          </Link>
-        ))}
+    <div className="h-full overflow-auto bg-slate-800">
+      <div className="sticky top-0 bg-slate-800 hover:bg-pink-600">
+        <ProjectAddButton />
+      </div>
+      <div className="">
+        <div className="flex flex-col">
+          {projects.map(project => (
+            <Link key={project.projectId} href={`/moo/${project.projectId}`}>
+              <a className={`w-full hover:bg-pink-300 ${project.projectId === projectId ? " bg-pink-500" : ""}`}>
+                <ProjectItem
+                  projectId={project.projectId}
+                  name={project.name}
+                />
+              </a>
+            </Link>
+          ))}
+        </div>
       </div>
     </div>
   )

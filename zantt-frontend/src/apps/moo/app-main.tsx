@@ -1,7 +1,7 @@
 import { FC, ReactElement, Suspense, useEffect, useState } from "react";
 import { useRouter } from "next/router"
-import ProjectNavBar from "@/apps/moo/controls/project-nav-bar";
-import TaskList, { TaskListLoading } from "@/apps/moo/controls/task-list";
+import ProjectNavBar from "@/apps/moo/controls/project/project-nav-bar";
+import TaskList, { TaskListLoading } from "@/apps/moo/controls/task/task-list";
 import { useAppDispatch } from "@/apps/moo/hooks/typed-redux-hook";
 import { setProjectId } from "@/apps/moo/features/project-slice";
 import { setTaskId } from "@/apps/moo/features/task-slice";
@@ -30,19 +30,20 @@ const MooAppMain: FC = (): ReactElement => {
   }, [router]);
 
   return (
-    <div className="w-full h-full flex flex-row">
-      <div className="flex flex-col w-24">
-        <Suspense fallback={<div>Loading Projects...</div>}>
-          <ProjectNavBar />
-        </Suspense>
-      </div>
-      <div className="flex flex-col w-96">
-        <Suspense fallback={<TaskListLoading />}>
-          <TaskList />
-        </Suspense>
-      </div>
-      <div className="flex flex-col grow">
-
+    <div className="w-full h-full">
+      <div className="flex flex-row h-full">
+        <div className="w-24">
+          <Suspense fallback={<div>Loading Projects...</div>}>
+            <ProjectNavBar />
+          </Suspense>
+        </div>
+        <div className="w-96">
+          <Suspense fallback={<TaskListLoading />}>
+            <TaskList />
+          </Suspense>
+        </div>
+        <div className="grow">
+        </div>
       </div>
     </div>
   )

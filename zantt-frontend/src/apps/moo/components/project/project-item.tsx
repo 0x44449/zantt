@@ -27,7 +27,7 @@ const ProjectItem: FC<ProjectItemProps> = ({ projectId, name, onSelect }): React
   const displayName = getDisplayName(name);
 
   return (
-    <div className="flex flex-col my-5 items-center">
+    <div className="flex flex-col py-5 items-center">
       <div className="flex flex-col justify-center items-center w-11 h-11 bg-orange-400 rounded-full" onClick={handleItemClick}>
         <span className="truncate uppercase text-base font-medium text-slate-50">{displayName}</span>
       </div>

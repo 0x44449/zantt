@@ -24,6 +24,7 @@ const ProjectNavBar: FC<ProjectNavBarProps> = (props): ReactElement => {
             <ProjectNavButton
               projectId={project.projectId}
               name={project.name}
+              className="p-2"
             />
           </a>
         </Link>

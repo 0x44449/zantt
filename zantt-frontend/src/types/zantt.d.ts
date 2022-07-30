@@ -38,3 +38,5 @@ declare namespace Zantt {
     fieldValue: string,
   }
 }
+
+declare module 'daisyui'; // daisyui fix

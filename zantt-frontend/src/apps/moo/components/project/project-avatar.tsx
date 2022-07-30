@@ -14,8 +14,10 @@ const ProjectAvatar: FC<{ name: string }> = ({ name }): ReactElement => {
   const displayName = getDisplayName(name);
 
   return (
-    <div className="flex justify-center items-center w-11 h-11 bg-orange-400 rounded-full">
-      <span className="truncate uppercase text-base font-medium text-slate-50">{displayName}</span>
+    <div className="avatar placeholder">
+      <div className="bg-neutral-focus text-neutral-content rounded-full w-11">
+        <span className="text-base">{displayName}</span>
+      </div>
     </div>
   )
 }

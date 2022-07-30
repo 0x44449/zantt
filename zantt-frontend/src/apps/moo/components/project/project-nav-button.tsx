@@ -6,9 +6,10 @@ type ProjectItemProps = {
   projectId: string;
   name: string;
   onSelect?: (projectId: string) => void;
+  className?: string;
 }
 
-const ProjectNavButton: FC<ProjectItemProps> = ({ projectId, name, onSelect }): ReactElement => {
+const ProjectNavButton: FC<ProjectItemProps> = ({ projectId, name, onSelect, className }): ReactElement => {
   const handleItemClick = () => {
     if (onSelect) {
       onSelect(projectId);
@@ -16,9 +17,9 @@ const ProjectNavButton: FC<ProjectItemProps> = ({ projectId, name, onSelect }): 
   };
 
   return (
-    <div className="flex flex-col py-4 px-3 items-center justify-center">
+    <div className={`flex flex-col items-center justify-center ${className ? className : ""}`}>
       <ProjectAvatar name={name} />
-      <p className="pt-1 text-sm font-normal text-slate-50">{name}</p>
+      <p className="text-sm truncate w-full text-center">{name}</p>
     </div>
   )
 }

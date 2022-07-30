@@ -1,7 +1,5 @@
-import { FC, ReactElement, Suspense, useEffect, useState } from "react";
+import { FC, ReactElement, useEffect } from "react";
 import { useRouter } from "next/router"
-import ProjectNavBar from "@/apps/moo/components/project/project-nav-bar";
-import TaskList, { TaskListLoading } from "@/apps/moo/controls/task/task-list";
 import { useAppDispatch, useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
 import { setProjectId, setProjectQueryStatus, setProjects } from "@/apps/moo/features/project-slice";
 import { setTaskId, setTaskQueryStatus, setTasks } from "@/apps/moo/features/task-slice";
@@ -66,20 +64,15 @@ const MooAppMain: FC = (): ReactElement => {
   }, [router]);
 
   return (
-    <div className="w-full h-full">
-      <div className="flex flex-row h-full">
-        <div className="w-24">
-          <LeftSideBar />
-        </div>
-        <div className="w-96">
-          {/* <Suspense fallback={<TaskListLoading />}>
-            <TaskList />
-          </Suspense> */}
-          <LeftPanel />
-        </div>
-        <div className="grow">
-          <RightPanel />
-        </div>
+    <div className="w-full h-screen flex flex-row flex-grow overflow-hidden">
+      <div className="w-20 h-screen flex-shrink-0 flex-grow-0">
+        <LeftSideBar />
+      </div>
+      <div className="w-96 h-screen flex-shrink-0 flex-grow-0">
+        
+      </div>
+      <div className="w-full h-screen flex-grow">
+
       </div>
     </div>
   )

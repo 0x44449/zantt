@@ -5,7 +5,7 @@ const projects = {
   success: true,
   data: [{
     projectId: "1",
-    name: "name1"
+    name: "name1longnamelongname"
   }, {
     projectId: "2",
     name: "name2"

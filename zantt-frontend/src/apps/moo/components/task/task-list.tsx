@@ -1,5 +1,5 @@
 import { getTasks } from "@/api/task";
-import TaskItem from "@/apps/moo/components/task/task-item";
+import TaskListItem from "@/apps/moo/components/task/task-list-item";
 import { setTasks } from "@/apps/moo/features/task-slice";
 import { useAppDispatch, useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
 import { useQuery } from "@tanstack/react-query";
@@ -11,23 +11,7 @@ type TaskListProps = {
 }
 
 const TaskList: FC<TaskListProps> = (props): ReactElement => {
-  const projectId = useAppSelector((state) => state.project.projectId);
   const tasks = useAppSelector((state) => state.task.tasks);
-  const dispatch = useAppDispatch();
-
-  const { data } = useQuery(["task/tasks", projectId], async () => {
-    const response = await getTasks(projectId);
-    return response.data;
-  }, {
-    suspense: true,
-    enabled: projectId !== ""
-  });
-
-  useEffect(() => {
-    if (typeof data !== "undefined") {
-      dispatch(setTasks(data));
-    }
-  }, [data]);
 
   return (
     <div className="h-full bg-slate-600 overflow-y-auto">
@@ -35,7 +19,7 @@ const TaskList: FC<TaskListProps> = (props): ReactElement => {
         {tasks.map(task => (
           <Link key={task.taskId} href={`/moo/${task.projectId}/${task.taskId}`}>
             <a className="w-full hover:bg-pink-300">
-              <TaskItem
+              <TaskListItem
                 taskId={task.taskId}
                 projectId={task.projectId}
                 title={task.title}

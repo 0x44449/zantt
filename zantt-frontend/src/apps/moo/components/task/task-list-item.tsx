@@ -8,7 +8,7 @@ type TaskItemProps = {
   onSelect?: (projectId: string) => void;
 }
 
-const TaskItem: FC<TaskItemProps> = ({ taskId, projectId, title, onSelect }): ReactElement => {
+const TaskListItem: FC<TaskItemProps> = ({ taskId, projectId, title, onSelect }): ReactElement => {
   const handleItemClick = () => {
     if (onSelect) {
       onSelect(projectId);
@@ -24,11 +24,11 @@ const TaskItem: FC<TaskItemProps> = ({ taskId, projectId, title, onSelect }): Re
   )
 }
 
-TaskItem.propTypes = {
+TaskListItem.propTypes = {
   taskId: PropTypes.string.isRequired,
   projectId: PropTypes.string.isRequired,
   title: PropTypes.string.isRequired,
   onSelect: PropTypes.func,
 };
 
-export default TaskItem;
+export default TaskListItem;

@@ -1,15 +1,15 @@
 import { FC, ReactElement, useEffect } from "react";
 import { useRouter } from "next/router"
 import { useAppDispatch, useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
-import { setProjectId, setProjectQueryStatus, setProjects } from "@/apps/moo/features/project-slice";
+import { setNeedProjectFetch, setProjectId, setProjectQueryStatus, setProjects } from "@/apps/moo/features/project-slice";
 import { setTaskId, setTaskQueryStatus, setTasks } from "@/apps/moo/features/task-slice";
 import { setWorkspaceId } from "@/apps/moo/features/workspace-slice";
 import LeftSideBar from "@/apps/moo/layouts/left-side-bar";
-import LeftPanel from "@/apps/moo/layouts/left-panel";
-import RightPanel from "@/apps/moo/layouts/right-panel";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/api/project";
 import { getTasks } from "@/api/task";
+import ProjectManageDropdown from "@/apps/moo/components/project/project-manage-dropdown";
+import LeftPanel from "@/apps/moo/layouts/left-panel";
 
 const MooAppMain: FC = (): ReactElement => {
   const router = useRouter();
@@ -18,6 +18,7 @@ const MooAppMain: FC = (): ReactElement => {
   const dispatch = useAppDispatch();
 
   /// * Query Project
+  const needProjectFetch = useAppSelector((state) => state.project.needProjectFetch);
   const { data: remoteProjects, status: projectQueryStatus } = useQuery(["/project/projects"], async () => {
     const response = await getProjects();
     return response.data;
@@ -25,6 +26,7 @@ const MooAppMain: FC = (): ReactElement => {
   useEffect(() => {
     if (typeof remoteProjects !== "undefined") {
       dispatch(setProjects(remoteProjects));
+      dispatch(setNeedProjectFetch(false));
     }
   }, [remoteProjects]);
   useEffect(() => {
@@ -69,7 +71,7 @@ const MooAppMain: FC = (): ReactElement => {
         <LeftSideBar />
       </div>
       <div className="w-96 h-screen flex-shrink-0 flex-grow-0">
-        
+        <LeftPanel />
       </div>
       <div className="w-full h-screen flex-grow">
 

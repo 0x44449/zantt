@@ -1,4 +1,4 @@
-import { cloneElement, FC, ReactElement, useRef } from "react"
+import { cloneElement, FC, ReactElement, useEffect, useRef, useState } from "react"
 
 type ModalWithButtonProps = {
   modalId: string;
@@ -15,7 +15,23 @@ const ModalWithButton: FC<ModalWithButtonProps> = ({
   buttonClassName,
   children
 }): ReactElement => {
-  let inputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [enabled, setEnabled] = useState(true);
+  const [checked, setChecked] = useState(false);
+
+  useEffect(() => {
+    setEnabled(true);
+  }, [checked]);
+
+  const mixingProps = {
+    closeModal: () => {
+      setEnabled(true);
+      setChecked(false);
+    },
+    setAutoClosable: (autoClosable: boolean) => {
+      setEnabled(autoClosable);
+    }
+  }
 
   return (
     <>
@@ -27,10 +43,13 @@ const ModalWithButton: FC<ModalWithButtonProps> = ({
         id={modalId}
         className="modal-toggle"
         ref={inputRef}
+        disabled={!enabled}
+        checked={checked}
+        onChange={() => setChecked(!checked)}
       />
       <label htmlFor={modalId} className="modal cursor-pointer">
         <label className="modal-box relative">
-          {cloneElement(children, {closeModal: () => {inputRef.current?.click()}})}
+          {cloneElement(children, mixingProps)}
         </label>
       </label>
     </>

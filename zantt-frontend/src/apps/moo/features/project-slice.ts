@@ -1,12 +1,14 @@
-import { createSelector, createSlice, PayloadAction } from "@reduxjs/toolkit"
+import { createSlice, PayloadAction } from "@reduxjs/toolkit"
 
 export interface ProjectState {
+  needProjectFetch: boolean;
   projectId: string;
   projects: Zantt.ProjectModelType[];
   projectQueryStatus: string;
 }
 
 const initialState: ProjectState = {
+  needProjectFetch: true,
   projectId: "",
   projects: [],
   projectQueryStatus: "",
@@ -16,6 +18,9 @@ export const projectSlice = createSlice({
   name: "project",
   initialState,
   reducers: {
+    setNeedProjectFetch: (state, action: PayloadAction<boolean>) => {
+      state.needProjectFetch = action.payload;
+    },
     setProjectId: (state, action: PayloadAction<string>) => {
       state.projectId = action.payload;
     },
@@ -29,6 +34,7 @@ export const projectSlice = createSlice({
 });
 
 export const {
+  setNeedProjectFetch,
   setProjectId,
   setProjects,
   setProjectQueryStatus,

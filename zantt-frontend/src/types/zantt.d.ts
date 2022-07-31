@@ -5,8 +5,10 @@ declare namespace Zantt {
   }
 
   type ApiResponse<T = any> = {
-    success: boolean,
-    data: T
+    success: boolean;
+    errorMessage: string;
+    errorCode: string;
+    data: T;
   }
 
   type ProjectModelType = {

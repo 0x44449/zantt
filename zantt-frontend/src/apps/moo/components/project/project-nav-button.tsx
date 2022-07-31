@@ -19,7 +19,7 @@ const ProjectNavButton: FC<ProjectItemProps> = ({ projectId, name, onSelect, cla
   return (
     <div className={`flex flex-col items-center justify-center ${className ? className : ""}`}>
       <ProjectAvatar name={name} />
-      <p className="text-sm truncate w-full text-center">{name}</p>
+      <p className="mt-2 text-xs truncate w-full text-center">{name}</p>
     </div>
   )
 }

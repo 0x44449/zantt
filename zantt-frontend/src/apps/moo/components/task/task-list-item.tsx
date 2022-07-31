@@ -16,19 +16,12 @@ const TaskListItem: FC<TaskItemProps> = ({ taskId, projectId, title, onSelect })
   };
 
   return (
-    <div className="flex flex-col px-4 py-4">
+    <div className="flex flex-col px-4 py-4 bg-gray-900">
       <div onClick={handleItemClick}>
-        <div className="text-slate-50">{title}</div>
+        <div className="">{title}</div>
       </div>
     </div>
   )
 }
-
-TaskListItem.propTypes = {
-  taskId: PropTypes.string.isRequired,
-  projectId: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-  onSelect: PropTypes.func,
-};
 
 export default TaskListItem;

@@ -8,7 +8,6 @@ import LeftSideBar from "@/apps/moo/layouts/left-side-bar";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/api/project";
 import { getTasks } from "@/api/task";
-import ProjectManageDropdown from "@/apps/moo/components/project/project-manage-dropdown";
 import LeftPanel from "@/apps/moo/layouts/left-panel";
 
 const MooAppMain: FC = (): ReactElement => {

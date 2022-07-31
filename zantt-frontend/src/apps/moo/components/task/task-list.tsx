@@ -14,11 +14,11 @@ const TaskList: FC<TaskListProps> = (props): ReactElement => {
   const tasks = useAppSelector((state) => state.task.tasks);
 
   return (
-    <div className="h-full bg-slate-600 overflow-y-auto">
-      <div className="flex flex-col divide-y divide-slate-50">
+    <div className="h-full overflow-y-auto">
+      <div className="flex flex-col gap-1">
         {tasks.map(task => (
           <Link key={task.taskId} href={`/moo/${task.projectId}/${task.taskId}`}>
-            <a className="w-full hover:bg-pink-300">
+            <a className="w-full">
               <TaskListItem
                 taskId={task.taskId}
                 projectId={task.projectId}

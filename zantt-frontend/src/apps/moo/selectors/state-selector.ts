@@ -1,3 +1,4 @@
+import { useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
 import { RootState } from "@/apps/moo/stores";
 import { createSelector } from "@reduxjs/toolkit";
 
@@ -31,6 +32,10 @@ export const selectCurrentProject = (): Selector<Zantt.ProjectModelType | null> 
   }
 );
 
+export const useCurrentProjectSelector = () => {
+  return useAppSelector(selectCurrentProject());
+}
+
 export const selectCurrentTask = (): Selector<Zantt.TaskModelType | null> => createSelector(
   [(state: RootState) => state.task.taskId, (state: RootState) => state.task.tasks],
   (taskId, tasks) => {
@@ -48,3 +53,7 @@ export const selectCurrentTask = (): Selector<Zantt.TaskModelType | null> => cre
     return null;
   }
 )
+
+export const useCurrentTaskSelector = () => {
+  return useAppSelector(selectCurrentTask());
+}

@@ -3,6 +3,8 @@ import mock from "@/api/mock";
 /** @type {Zantt.ApiResponse<Zantt.TaskModelType[]>} */
 const tasks1 = {
   success: true,
+  errorCode: "",
+  errorMessage: "",
   data: [{
     taskId: "1",
     projectId: "1",

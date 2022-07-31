@@ -5,13 +5,14 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { addTask } from "@/api/task";
 import WellKnownApiException from "@/api/well-known-api-exception";
 import { useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
+import { useCurrentProjectSelector } from "@/apps/moo/selectors/state-selector";
 
 const TaskAddModal: FC<{ closeModal: () => void }> = ({ closeModal }): ReactElement => {
   // * States
   const [title, setTitle] = useState("");
   const [isNameValid, setIsNameValid] = useState(false);
 
-  // * Task mutation
+  // * Mutations
   const queryClient = useQueryClient();
   type AddTaskMutationParam = {
     projectId: string;
@@ -76,7 +77,7 @@ const TaskAddModal: FC<{ closeModal: () => void }> = ({ closeModal }): ReactElem
   }
 
   return (
-    <>
+    <div className="w-96 rounded-2xl bg-neutral-content p-6 text-left align-middle">
       <Dialog.Title
         as="h3"
         className="text-lg font-medium leading-6 text-neutral"
@@ -112,7 +113,7 @@ const TaskAddModal: FC<{ closeModal: () => void }> = ({ closeModal }): ReactElem
           Cancel
         </button>
       </div>
-    </>
+    </div>
   )
 }
 
@@ -132,8 +133,16 @@ const TaskAddOpenModalButton: FC<{ openModal: () => void }> = ({ openModal }): R
 }
 
 const TaskAddButtonWithModal: FC = (): ReactElement => {
-  let [isOpen, setIsOpen] = useState(false);
+  // * States
+  const [isOpen, setIsOpen] = useState(false);
 
+  // * Selects
+  const currentProject = useCurrentProjectSelector();
+  if (currentProject === null) {
+    return (<></>)
+  }
+
+  // * Handlers
   const closeModal = () => {
     setIsOpen(false);
   }
@@ -170,7 +179,7 @@ const TaskAddButtonWithModal: FC = (): ReactElement => {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-neutral-content p-6 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-auto transform overflow-hidden shadow-xl transition-all">
                   <TaskAddModal closeModal={closeModal} />
                 </Dialog.Panel>
               </Transition.Child>

@@ -1,4 +1,3 @@
-import ProjectAvatar from "@/apps/moo/components/project/project-avatar";
 import { useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
 import { selectCurrentProject } from "@/apps/moo/selectors/state-selector";
 import { FC, ReactElement } from "react";
@@ -23,4 +22,4 @@ const ProjectSummaryCard: FC = (): ReactElement => {
   )
 }
 
-export default ProjectSummaryCard;  
+export default ProjectSummaryCard;

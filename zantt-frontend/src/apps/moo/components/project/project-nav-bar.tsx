@@ -1,10 +1,5 @@
-import { getProjects } from "@/api/project";
-import ProjectVerticalScrollable from "@/apps/moo/components/project/project-vertical-scrollable";
-import ProjectStickyAddButton from "@/apps/moo/components/project/project-sticky-add-button";
 import ProjectNavButton from "@/apps/moo/components/project/project-nav-button";
-import { setProjects } from "@/apps/moo/features/project-slice";
-import { useAppDispatch, useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
-import { useQuery } from "@tanstack/react-query";
+import { useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
 import Link from "next/link";
 import { FC, ReactElement, useEffect } from "react";
 
@@ -22,7 +17,6 @@ const ProjectNavBar: FC<ProjectNavBarProps> = (props): ReactElement => {
         <Link key={project.projectId} href={`/moo/${project.projectId}`}>
           <a className={`w-full hover:bg-gray-700${project.projectId === projectId ? " bg-gray-900" : ""}`}>
             <ProjectNavButton
-              projectId={project.projectId}
               name={project.name}
               className="p-2 py-3"
             />

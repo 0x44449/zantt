@@ -3,19 +3,11 @@ import PropTypes from "prop-types";
 import { FC, ReactElement } from "react";
 
 type ProjectItemProps = {
-  projectId: string;
   name: string;
-  onSelect?: (projectId: string) => void;
   className?: string;
 }
 
-const ProjectNavButton: FC<ProjectItemProps> = ({ projectId, name, onSelect, className }): ReactElement => {
-  const handleItemClick = () => {
-    if (onSelect) {
-      onSelect(projectId);
-    }
-  };
-
+const ProjectNavButton: FC<ProjectItemProps> = ({ name, className }): ReactElement => {
   return (
     <div className={`flex flex-col items-center justify-center ${className ? className : ""}`}>
       <ProjectAvatar name={name} />
@@ -25,9 +17,8 @@ const ProjectNavButton: FC<ProjectItemProps> = ({ projectId, name, onSelect, cla
 }
 
 ProjectNavButton.propTypes = {
-  projectId: PropTypes.string.isRequired,
   name: PropTypes.string.isRequired,
-  onSelect: PropTypes.func,
+  className: PropTypes.string
 };
 
 export default ProjectNavButton;

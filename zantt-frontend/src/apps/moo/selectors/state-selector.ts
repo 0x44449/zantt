@@ -14,6 +14,10 @@ export const selectIsProjectFetching = (): Selector<boolean> => createSelector(
   }
 )
 
+export const useIsProjectFetchingSelector = () => {
+  return useAppSelector(selectIsProjectFetching());
+}
+
 export const selectCurrentProject = (): Selector<Zantt.ProjectModelType | null> => createSelector(
   [(state: RootState) => state.project.projectId, (state: RootState) => state.project.projects],
   (projectId, projects) => {

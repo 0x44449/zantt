@@ -6,11 +6,12 @@ import { addTask } from "@/api/task";
 import WellKnownApiException from "@/api/well-known-api-exception";
 import { useAppSelector } from "@/apps/moo/hooks/typed-redux-hook";
 import { useCurrentProjectSelector } from "@/apps/moo/selectors/state-selector";
+import { useStaticModalGroupComponent } from "@/apps/moo/components/common/static-modal-group";
 
 const TaskAddModal: FC<{ closeModal: () => void }> = ({ closeModal }): ReactElement => {
   // * States
   const [title, setTitle] = useState("");
-  const [isNameValid, setIsNameValid] = useState(false);
+  const [isTitleValid, setIsTitleValid] = useState(false);
 
   // * Mutations
   const queryClient = useQueryClient();
@@ -40,10 +41,10 @@ const TaskAddModal: FC<{ closeModal: () => void }> = ({ closeModal }): ReactElem
   // * Effects
   useEffect(() => {
     if (title.length < 2) {
-      setIsNameValid(false);
+      setIsTitleValid(false);
     }
     else {
-      setIsNameValid(true);
+      setIsTitleValid(true);
     }
   }, [title]);
 
@@ -100,7 +101,7 @@ const TaskAddModal: FC<{ closeModal: () => void }> = ({ closeModal }): ReactElem
           type="button"
           className={`btn ${isAddTaskLoading ? "loading" : ""}`}
           onClick={handleAddTaskClick}
-          disabled={!isNameValid}
+          disabled={!isTitleValid}
         >
           Add
         </button>
@@ -133,60 +134,14 @@ const TaskAddOpenModalButton: FC<{ openModal: () => void }> = ({ openModal }): R
 }
 
 const TaskAddButtonWithModal: FC = (): ReactElement => {
-  // * States
-  const [isOpen, setIsOpen] = useState(false);
-
-  // * Selects
-  const currentProject = useCurrentProjectSelector();
-  if (currentProject === null) {
-    return (<></>)
-  }
-
-  // * Handlers
-  const closeModal = () => {
-    setIsOpen(false);
-  }
-
-  const openModal = () => {
-    setIsOpen(true);
-  }
+  const { closeModal, openModal, ModalContainerComponent } = useStaticModalGroupComponent();
 
   return (
     <>
       <TaskAddOpenModalButton openModal={openModal} />
-      <Transition appear show={isOpen} as={Fragment}>
-        <Dialog as="div" className="relative z-10" onClose={() => { }}>
-          <Transition.Child
-            as={Fragment}
-            enter="ease-out duration-300"
-            enterFrom="opacity-0"
-            enterTo="opacity-100"
-            leave="ease-in duration-200"
-            leaveFrom="opacity-100"
-            leaveTo="opacity-0"
-          >
-            <div className="fixed inset-0 bg-black bg-opacity-25" />
-          </Transition.Child>
-
-          <div className="fixed inset-0 overflow-y-auto">
-            <div className="flex min-h-full items-center justify-center p-4 text-center">
-              <Transition.Child
-                as={Fragment}
-                enter="ease-out duration-300"
-                enterFrom="opacity-0 scale-95"
-                enterTo="opacity-100 scale-100"
-                leave="ease-in duration-200"
-                leaveFrom="opacity-100 scale-100"
-                leaveTo="opacity-0 scale-95"
-              >
-                <Dialog.Panel className="w-auto transform overflow-hidden shadow-xl transition-all">
-                  <TaskAddModal closeModal={closeModal} />
-                </Dialog.Panel>
-              </Transition.Child>
-            </div>
-          </div>
-        </Dialog>
-      </Transition>
+      <ModalContainerComponent>
+        <TaskAddModal closeModal={closeModal} />
+      </ModalContainerComponent>
     </>
   )
 }

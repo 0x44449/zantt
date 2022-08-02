@@ -2,13 +2,12 @@
 using Zantt.Entities;
 using Zantt.Models;
 
-namespace Zantt.Mappers
+namespace Zantt.Mappers;
+
+public class ZanttMappingProfile : Profile
 {
-    public class ZanttMappingProfile : Profile
+    public ZanttMappingProfile()
     {
-        public ZanttMappingProfile()
-        {
-            CreateMap<ProjectEntity, ProjectViewModel>();
-        }
+        CreateMap<ProjectEntity, ProjectViewModel>();
     }
 }

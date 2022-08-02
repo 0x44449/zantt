@@ -7,5 +7,5 @@ public class ZanttContext : DbContext
 {
     public ZanttContext(DbContextOptions<ZanttContext> options) : base(options) { }
 
-    public DbSet<ProjectEntity> Projects { get; set; }
+    public DbSet<ProjectEntity> Projects => Set<ProjectEntity>();
 }

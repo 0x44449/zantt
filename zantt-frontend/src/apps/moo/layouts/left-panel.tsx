@@ -1,3 +1,4 @@
+import VerticalScrollable from "@/apps/moo/components/common/vertical-scrollable";
 import ProjectSummaryCard from "@/apps/moo/components/project/project-summary-card";
 import TaskAddButtonWithModal from "@/apps/moo/components/task/task-add-button-with-modal";
 import TaskList from "@/apps/moo/components/task/task-list";
@@ -7,23 +8,19 @@ const LeftPanel: FC = (): ReactElement => {
 
   return (
     <div className="pl-1 h-full">
-      {/** scroller */}
-      <div className="h-full overflow-y-auto overflow-x-hidden">
-        {/** viewport */}
-        <div className="flex-1">
-          {/** sticky */}
-          <div className="sticky top-0">
-            <ProjectSummaryCard />
-            <div className="mt-1">
-              <TaskAddButtonWithModal />
-            </div>
-          </div>
-          {/** list */}
-          <div className="mt-2">
-            <TaskList />
+      <VerticalScrollable>
+        {/** sticky */}
+        <div className="sticky top-0">
+          <ProjectSummaryCard />
+          <div className="mt-1">
+            <TaskAddButtonWithModal />
           </div>
         </div>
-      </div>
+        {/** list */}
+        <div className="mt-2">
+          <TaskList />
+        </div>
+      </VerticalScrollable>
     </div>
   )
 }

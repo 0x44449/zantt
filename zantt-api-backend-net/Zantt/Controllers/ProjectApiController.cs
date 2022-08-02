@@ -1,5 +1,4 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Zantt.Entities;
 using Zantt.Filters;
@@ -33,10 +32,41 @@ public class ProjectApiController : ControllerBase
     {
         var projects = projectService.GetProjects();
         var result = mapper.Map<List<ProjectEntity>, IEnumerable<ProjectViewModel>>(projects);
-        var response = new ApiResponse<IEnumerable<ProjectViewModel>>
+        return new ApiResponse<IEnumerable<ProjectViewModel>>
         {
             Data = result
         };
-        return response;
+    }
+
+    [HttpGet]
+    [Route("")]
+    public ApiResponse<ProjectViewModel> GetProject([FromQuery] string projectId)
+    {
+        var project = projectService.GetProject(projectId);
+        var result = mapper.Map<ProjectViewModel>(project);
+        return new ApiResponse<ProjectViewModel>
+        {
+            Data = result
+        };
+    }
+
+    [HttpPost]
+    [Route("")]
+    public ApiResponse<ProjectViewModel> AddProject([FromBody] AddProjectRequestModel req)
+    {
+        var project = projectService.AddProject(req.Name);
+        var result = mapper.Map<ProjectViewModel>(project);
+        return new ApiResponse<ProjectViewModel>
+        {
+            Data = result
+        };
+    }
+
+    [HttpDelete]
+    [Route("")]
+    public ApiResponse DeleteProject([FromQuery] string projectId)
+    {
+        projectService.DeleteProject(projectId);
+        return new ApiResponse();
     }
 }

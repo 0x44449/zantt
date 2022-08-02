@@ -39,6 +39,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// * EntityFramework Database Initialize
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;

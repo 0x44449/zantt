@@ -23,7 +23,7 @@ public class ProjectRepository
 
     public ProjectEntity? GetProjectByProjectId(string projectId)
     {
-        return zanttContext.Projects.SingleOrDefault(p => p.ProjectId == projectId);
+        return zanttContext.Projects.OrderByDescending(p => p.CreatedTime).SingleOrDefault(p => p.ProjectId == projectId);
     }
 
     public ProjectEntity? AddProject(ProjectEntity project)

@@ -15,4 +15,8 @@ public class ProjectEntity
     [Column("name")]
     [StringLength(255)]
     public string Name { get; set; } = string.Empty;
+
+    [Required]
+    [Column("created_time")]
+    public DateTime CreatedTime { get; set; } = DateTime.Now;
 }

@@ -50,6 +50,10 @@ using (var scope = app.Services.CreateScope())
 
     var context = services.GetRequiredService<ZanttContext>();
     context.Database.EnsureCreated();
+    if (context.Database.GetPendingMigrations().Any())
+    {
+        context.Database.Migrate();
+    }
 }
 
 app.UseAuthorization();

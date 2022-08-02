@@ -1,13 +1,14 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Zantt.Entities;
+using Zantt.Exceptions;
 using Zantt.Filters;
 using Zantt.Models;
 using Zantt.Services;
 
 namespace Zantt.Controllers;
 
-[ApiExceptionFilter]
+[ServiceFilter(typeof(ApiExceptionFilterAttribute))]
 [Route("project")]
 [ApiController]
 public class ProjectApiController : ControllerBase
@@ -54,7 +55,33 @@ public class ProjectApiController : ControllerBase
     [Route("")]
     public ApiResponse<ProjectViewModel> AddProject([FromBody] AddProjectRequestModel req)
     {
+        if (req.Name == null)
+        {
+            throw new WellKnownApiException("Name field is null", "INVALID_PARAMETER");
+        }
+
         var project = projectService.AddProject(req.Name);
+        var result = mapper.Map<ProjectViewModel>(project);
+        return new ApiResponse<ProjectViewModel>
+        {
+            Data = result
+        };
+    }
+
+    [HttpPut]
+    [Route("")]
+    public ApiResponse<ProjectViewModel> UpdateProject([FromBody] UpdateProjectRequestModel req)
+    {
+        if (req.ProjectId == null)
+        {
+            throw new WellKnownApiException("ProjectId field is null", "INVALID_PARAMETER");
+        }
+        if (req.Name == null)
+        {
+            throw new WellKnownApiException("Name field is null", "INVALID_PARAMETER");
+        }
+
+        var project = projectService.UpdateProject(req.ProjectId, req.Name);
         var result = mapper.Map<ProjectViewModel>(project);
         return new ApiResponse<ProjectViewModel>
         {

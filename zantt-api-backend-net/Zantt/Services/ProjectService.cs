@@ -1,4 +1,5 @@
 ﻿using Zantt.Entities;
+using Zantt.Exceptions;
 using Zantt.Repositories;
 
 namespace Zantt.Services;
@@ -6,9 +7,13 @@ namespace Zantt.Services;
 public class ProjectService
 {
     private readonly ProjectRepository projectRepository;
+    private readonly ILogger<ProjectService> logger;
 
-    public ProjectService(ProjectRepository projectRepository)
+    public ProjectService(
+        ILogger<ProjectService> logger,
+        ProjectRepository projectRepository)
     {
+        this.logger = logger;
         this.projectRepository = projectRepository;
     }
 
@@ -33,6 +38,17 @@ public class ProjectService
         };
 
         return projectRepository.AddProject(project);
+    }
+
+    public ProjectEntity? UpdateProject(string projectId, string name)
+    {
+        var project = projectRepository.UpdateProjectByProjectId(projectId, name);
+        if (project == null)
+        {
+            throw new WellKnownApiException("Can not found project", "PROJECT_NOT_FOUND");
+        }
+
+        return project;
     }
 
     public void DeleteProject(string projectId)

@@ -1,9 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Zantt.Contexts;
+using Zantt.Filters;
 using Zantt.Repositories;
 using Zantt.Services;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
+builder.Logging.AddConsole();
 
 // Add services to the container.
 
@@ -24,6 +27,7 @@ builder.Services.AddDbContext<ZanttContext>(
 );
 
 // * DI
+builder.Services.AddScoped<ApiExceptionFilterAttribute>();
 builder.Services.AddScoped<ProjectService, ProjectService>();
 builder.Services.AddScoped<ProjectRepository, ProjectRepository>();
 

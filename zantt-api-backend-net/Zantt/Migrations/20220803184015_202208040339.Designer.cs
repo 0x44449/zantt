@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Zantt.Contexts;
 
@@ -10,9 +11,10 @@ using Zantt.Contexts;
 namespace Zantt.Migrations
 {
     [DbContext(typeof(ZanttContext))]
-    partial class ZanttContextModelSnapshot : ModelSnapshot
+    [Migration("20220803184015_202208040339")]
+    partial class _202208040339
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

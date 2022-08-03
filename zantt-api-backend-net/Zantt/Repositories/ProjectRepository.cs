@@ -18,24 +18,30 @@ public class ProjectRepository
 
     public List<ProjectEntity> GetProjects()
     {
-        return zanttContext.Projects.ToList();
+        return zanttContext.Projects
+            .OrderByDescending(p => p.CreatedTime)
+            .ToList();
     }
 
     public ProjectEntity? GetProjectByProjectId(string projectId)
     {
-        return zanttContext.Projects.OrderByDescending(p => p.CreatedTime).SingleOrDefault(p => p.ProjectId == projectId);
+        return zanttContext.Projects
+            .SingleOrDefault(p => p.ProjectId == projectId);
     }
 
     public ProjectEntity? AddProject(ProjectEntity project)
     {
         zanttContext.Projects.Add(project);
         zanttContext.SaveChanges();
-        return zanttContext.Projects.SingleOrDefault(p => p.ProjectId == project.ProjectId);
+
+        return zanttContext.Projects
+            .SingleOrDefault(p => p.ProjectId == project.ProjectId);
     }
 
     public void DeleteProjectByProjectId(string projectId)
     {
-        var project = zanttContext.Projects.SingleOrDefault(p => p.ProjectId == projectId);
+        var project = zanttContext.Projects
+            .SingleOrDefault(p => p.ProjectId == projectId);
         if (project != null)
         {
             zanttContext.Projects.Remove(project);
@@ -45,7 +51,8 @@ public class ProjectRepository
 
     public ProjectEntity? UpdateProjectByProjectId(string projectId, string name)
     {
-        var project = zanttContext.Projects.SingleOrDefault(p => p.ProjectId == projectId);
+        var project = zanttContext.Projects
+            .SingleOrDefault(p => p.ProjectId == projectId);
         if (project == null)
         {
             return null;
@@ -53,6 +60,8 @@ public class ProjectRepository
 
         project.Name = name;
         zanttContext.SaveChanges();
-        return zanttContext.Projects.SingleOrDefault(p => p.ProjectId == projectId);
+
+        return zanttContext.Projects
+            .SingleOrDefault(p => p.ProjectId == projectId);
     }
 }

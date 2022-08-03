@@ -27,7 +27,7 @@ public class ProjectService
     {
         if (projectId == null)
         {
-            throw new WellKnownApiException($"{nameof(projectId)} is null", "INVALID_PARAM");
+            throw new WellKnownApiException($"{nameof(projectId)} is null", "INVALID_PARAMETER");
         }
 
         return projectRepository.GetProjectByProjectId(projectId);
@@ -37,7 +37,7 @@ public class ProjectService
     {
         if (name == null)
         {
-            throw new WellKnownApiException($"{nameof(name)} is null", "INVALID_PARAM");
+            throw new WellKnownApiException($"{nameof(name)} is null", "INVALID_PARAMETER");
         }
 
         var projectId = Guid.NewGuid().ToString();
@@ -55,11 +55,11 @@ public class ProjectService
     {
         if (projectId == null)
         {
-            throw new WellKnownApiException($"{nameof(projectId)} is null", "INVALID_PARAM");
+            throw new WellKnownApiException($"{nameof(projectId)} is null", "INVALID_PARAMETER");
         }
         if (name == null)
         {
-            throw new WellKnownApiException($"{nameof(name)} is null", "INVALID_PARAM");
+            throw new WellKnownApiException($"{nameof(name)} is null", "INVALID_PARAMETER");
         }
 
         var project = projectRepository.UpdateProjectByProjectId(projectId, name);

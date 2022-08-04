@@ -33,25 +33,30 @@ public class ProjectService
         return projectRepository.GetProjectByProjectId(projectId);
     }
 
-    public ProjectEntity? AddProject(string name)
+    public ProjectEntity AddProject(string name)
     {
         if (name == null)
         {
             throw new WellKnownApiException($"{nameof(name)} is null", "INVALID_PARAMETER");
         }
 
-        var projectId = Guid.NewGuid().ToString();
-
         var project = new ProjectEntity()
         {
-            ProjectId = projectId,
-            Name = name
+            ProjectId = Guid.NewGuid().ToString(),
+            Name = name,
+            CreatedTime = DateTime.Now
         };
 
-        return projectRepository.AddProject(project);
+        var addedProject = projectRepository.AddProject(project);
+        if (addedProject == null)
+        {
+            throw new WellKnownApiException("Failed to project add", "FAILED_TO_PROJECT_ADD");
+        }
+
+        return addedProject;
     }
 
-    public ProjectEntity? UpdateProject(string projectId, string name)
+    public ProjectEntity UpdateProject(string projectId, string name)
     {
         if (projectId == null)
         {
@@ -62,13 +67,13 @@ public class ProjectService
             throw new WellKnownApiException($"{nameof(name)} is null", "INVALID_PARAMETER");
         }
 
-        var project = projectRepository.UpdateProjectByProjectId(projectId, name);
-        if (project == null)
+        var updatedProject = projectRepository.UpdateProjectByProjectId(projectId, name);
+        if (updatedProject == null)
         {
-            throw new WellKnownApiException("Can not found project", "PROJECT_NOT_FOUND");
+            throw new WellKnownApiException("Project not found", "PROJECT_NOT_FOUND");
         }
 
-        return project;
+        return updatedProject;
     }
 
     public void DeleteProject(string projectId)

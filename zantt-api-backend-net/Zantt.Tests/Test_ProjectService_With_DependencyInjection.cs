@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc.Testing;
+﻿#pragma warning disable CS8625
+
+using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Zantt.Entities;
 using Zantt.Exceptions;
@@ -7,7 +9,7 @@ using Zantt.Services;
 namespace Zantt.Tests;
 
 [TestFixture]
-public class Test_ProjectService
+public class Test_ProjectService_With_DependencyInjection
 {
     private ProjectService projectService;
     private IServiceScope scope;
@@ -36,7 +38,7 @@ public class Test_ProjectService
     }
 
     [Test]
-    public void Check_Simple_CRUD_Operations()
+    public void Default_CRUD_ShouldPass()
     {
         var project = new ProjectEntity
         {
@@ -74,28 +76,5 @@ public class Test_ProjectService
         var deleteResult = projectService.GetProject(project.ProjectId);
 
         Assert.That(deleteResult, Is.Null);
-    }
-
-    [Test]
-    public void Throw_When_Add_Project_Name_Is_Null()
-    {
-        Assert.That(() => projectService.AddProject(null), Throws.TypeOf<WellKnownApiException>());
-    }
-
-    [Test]
-    public void Throw_When_Update_Project_Name_Is_Null()
-    {
-        var addResult = projectService.AddProject("This is test sample");
-
-        Assert.That(addResult, Is.Not.Null);
-        Assert.That(() => projectService.UpdateProject(addResult.ProjectId, null), Throws.TypeOf<WellKnownApiException>());
-
-        projectService.DeleteProject(addResult.ProjectId);
-    }
-
-    [Test]
-    public void Throw_When_Delete_Project_Id_Is_Null()
-    {
-        Assert.That(() => projectService.DeleteProject(null), Throws.TypeOf<WellKnownApiException>());
     }
 }

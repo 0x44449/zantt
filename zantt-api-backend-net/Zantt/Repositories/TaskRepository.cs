@@ -16,7 +16,7 @@ public class TaskRepository
         this.zanttContext = zanttContext;
     }
 
-    public List<TaskEntity> GetTasksByProjectId(string projectId)
+    public virtual List<TaskEntity> GetTasksByProjectId(string projectId)
     {
         return zanttContext.Tasks
             .Where(t => t.ProjectId == projectId)
@@ -24,13 +24,13 @@ public class TaskRepository
             .ToList();
     }
 
-    public TaskEntity? GetTaskByTaskId(string taskId)
+    public virtual TaskEntity? GetTaskByTaskId(string taskId)
     {
         return zanttContext.Tasks
             .SingleOrDefault(t => t.TaskId == taskId);
     }
 
-    public TaskEntity? AddTask(TaskEntity task)
+    public virtual TaskEntity? AddTask(TaskEntity task)
     {
         zanttContext.Tasks.Add(task);
         zanttContext.SaveChanges();
@@ -39,7 +39,7 @@ public class TaskRepository
             .SingleOrDefault(t => t.TaskId == task.TaskId);
     }
 
-    public void DeleteTaskByTaskId(string taskId)
+    public virtual void DeleteTaskByTaskId(string taskId)
     {
         var task = zanttContext.Tasks
             .SingleOrDefault(t => t.TaskId == taskId);
@@ -50,7 +50,7 @@ public class TaskRepository
         }
     }
 
-    public TaskEntity? UpdateTaskByTaskId(string taskId, string title)
+    public virtual TaskEntity? UpdateTaskByTaskId(string taskId, string title)
     {
         var task = zanttContext.Tasks
             .SingleOrDefault(t => t.TaskId == taskId);

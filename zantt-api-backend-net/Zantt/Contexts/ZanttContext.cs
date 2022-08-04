@@ -9,4 +9,5 @@ public class ZanttContext : DbContext
 
     public DbSet<ProjectEntity> Projects => Set<ProjectEntity>();
     public DbSet<TaskEntity> Tasks => Set<TaskEntity>();
+    public DbSet<WorkspaceEntity> Workspaces => Set<WorkspaceEntity>();
 }

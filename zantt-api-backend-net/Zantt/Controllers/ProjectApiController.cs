@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Zantt.Entities;
 using Zantt.Exceptions;
 using Zantt.Filters;
-using Zantt.Models;
+using Zantt.Models.RequestModels;
+using Zantt.Models.ViewModels;
 using Zantt.Services;
 
 namespace Zantt.Controllers;

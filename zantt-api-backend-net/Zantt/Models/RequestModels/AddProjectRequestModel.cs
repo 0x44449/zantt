@@ -1,4 +1,4 @@
-﻿namespace Zantt.Models;
+﻿namespace Zantt.Models.RequestModels;
 
 public class AddProjectRequestModel
 {

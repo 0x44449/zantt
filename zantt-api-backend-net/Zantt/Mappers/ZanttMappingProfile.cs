@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using Zantt.Entities;
-using Zantt.Models;
+using Zantt.Models.ViewModels;
 
 namespace Zantt.Mappers;
 

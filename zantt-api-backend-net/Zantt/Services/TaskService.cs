@@ -71,4 +71,9 @@ public class TaskService
 
         return taskRepository.UpdateTaskByTaskId(taskId, title);
     }
+
+    public void DeleteTask(string taskId)
+    {
+        taskRepository.DeleteTaskByTaskId(taskId);
+    }
 }

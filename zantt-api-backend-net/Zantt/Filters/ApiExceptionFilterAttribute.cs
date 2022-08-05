@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Zantt.Exceptions;
-using Zantt.Models;
+using Zantt.Models.ViewModels;
 
 namespace Zantt.Filters;
 

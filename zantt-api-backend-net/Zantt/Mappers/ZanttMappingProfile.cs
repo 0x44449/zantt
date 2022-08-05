@@ -10,5 +10,6 @@ public class ZanttMappingProfile : Profile
     {
         CreateMap<ProjectEntity, ProjectViewModel>();
         CreateMap<TaskEntity, TaskViewModel>();
+        CreateMap<WorkspaceEntity, WorkspaceViewModel>();
     }
 }

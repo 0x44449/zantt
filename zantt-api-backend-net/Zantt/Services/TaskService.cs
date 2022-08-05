@@ -6,17 +6,14 @@ namespace Zantt.Services;
 
 public class TaskService
 {
-    private readonly ProjectRepository projectRepository;
     private readonly TaskRepository taskRepository;
     private readonly ILogger<TaskService> logger;
 
     public TaskService(
         ILogger<TaskService> logger,
-        ProjectRepository projectRepository,
         TaskRepository taskRepository)
     {
         this.logger = logger;
-        this.projectRepository = projectRepository;
         this.taskRepository = taskRepository;
     }
 
@@ -41,21 +38,7 @@ public class TaskService
             throw new WellKnownApiException($"{nameof(title)} is null", "INVALID_PARAMETER");
         }
 
-        var project = projectRepository.GetProjectByProjectId(projectId);
-        if (project == null)
-        {
-            throw new WellKnownApiException("Project not found", "PROJECT_NOT_FOUND");
-        }
-
-        var task = new TaskEntity()
-        {
-            ProjectId = projectId,
-            TaskId = Guid.NewGuid().ToString(),
-            Title = title,
-            CreatedTime = DateTime.Now
-        };
-
-        return taskRepository.AddTask(task);
+        return taskRepository.AddTask(projectId, title);
     }
 
     public TaskEntity? UpdateTask(string taskId, string title)

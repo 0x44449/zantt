@@ -3,7 +3,6 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.Extensions.DependencyInjection;
 using Zantt.Entities;
-using Zantt.Exceptions;
 using Zantt.Services;
 
 namespace Zantt.Tests;
@@ -11,30 +10,19 @@ namespace Zantt.Tests;
 [TestFixture]
 public class Test_ProjectService_With_DependencyInjection
 {
+    private AppPack appPack = AppPack.Create();
     private ProjectService projectService;
-    private IServiceScope scope;
-    private WebApplicationFactory<Program> app;
 
     [OneTimeSetUp]
     public void Test_Setup()
     {
-        app = new WebApplicationFactory<Program>();
-        scope = app.Services.CreateScope();
-        var services = scope.ServiceProvider;
-        projectService = services.GetRequiredService<ProjectService>();
+        projectService = appPack.ServiceProvider.GetRequiredService<ProjectService>();
     }
 
     [OneTimeTearDown]
     public void Test_Cleanup()
     {
-        if (scope != null)
-        {
-            scope.Dispose();
-        }
-        if (app != null)
-        {
-            app.Dispose();
-        }
+        appPack.Dispose();
     }
 
     [Test]

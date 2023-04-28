@@ -8,7 +8,6 @@ public class Task {
     private String name;
     private String description;
     private LocalDateTime createdDateTime;
-    private Integer order;
 
     public String getTaskId() {
         return taskId;
@@ -48,13 +47,5 @@ public class Task {
 
     public void setCreatedDateTime(LocalDateTime createdDateTime) {
         this.createdDateTime = createdDateTime;
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
     }
 }

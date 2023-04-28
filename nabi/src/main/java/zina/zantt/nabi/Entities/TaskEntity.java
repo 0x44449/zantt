@@ -22,8 +22,6 @@ public class TaskEntity {
     private String description;
     @Column(nullable = false)
     private LocalDateTime createdDateTime;
-    @Column
-    private Integer order;
 
     public String getTaskId() {
         return taskId;
@@ -63,13 +61,5 @@ public class TaskEntity {
 
     public void setCreatedDateTime(LocalDateTime createdDateTime) {
         this.createdDateTime = createdDateTime;
-    }
-
-    public int getOrder() {
-        return order;
-    }
-
-    public void setOrder(int order) {
-        this.order = order;
     }
 }

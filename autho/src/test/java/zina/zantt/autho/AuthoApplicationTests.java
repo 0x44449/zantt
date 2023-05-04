@@ -1,10 +1,10 @@
-package com.zantt;
+package zina.zantt.autho;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ZanttApplicationTests {
+class AuthoApplicationTests {
 
 	@Test
 	void contextLoads() {

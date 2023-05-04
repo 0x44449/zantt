@@ -1,7 +1,7 @@
 import axios, { AxiosError } from "axios";
 
 const nabiClient = axios.create({
-  // baseURL: 'http://localhost:8080',
+  baseURL: 'http://nabi.zantt.local',
   headers: {
     'Content-Type': 'application/json',
   },

@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 
 public class TaskCompositionId implements Serializable {
-    private String projectId;
-    private String taskId;
+    private final String projectId;
+    private final String taskId;
 
     public TaskCompositionId(String projectId, String taskId) {
         this.projectId = projectId;

@@ -28,7 +28,7 @@ public class ProjectApiController {
 
     @GetMapping("/{projectId}")
     public ResponseEntity<ApiResult<Project>> getProject(@PathVariable("projectId") String projectId) {
-        var project = projectService.getProjectByProjectId(projectId);
+        var project = projectService.getProjectById(projectId);
         return ResponseEntity.ok(new ApiResult<>(true, "Success", project));
     }
 
@@ -42,7 +42,7 @@ public class ProjectApiController {
 
     @DeleteMapping("/{projectId}")
     public ResponseEntity<ApiResult<Object>> removeProject(@PathVariable("projectId") String projectId) {
-        projectService.removeProjectByProjectId(projectId);
+        projectService.removeProjectById(projectId);
         return ResponseEntity.ok(new ApiResult<>(true, "Success", null));
     }
 }

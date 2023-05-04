@@ -18,7 +18,7 @@ public class TaskService {
         this.taskRepository = taskRepository;
     }
 
-    public List<Task> getTasksByProjectId(String projectId) {
+    public List<Task> getTasks(String projectId) {
         var tasks = taskRepository.findAllByProjectId(
                 projectId,
                 Sort.by(Sort.Direction.DESC, "order").descending().and(
@@ -28,7 +28,7 @@ public class TaskService {
         return NabiMapper.INSTANCE.toTaskDto(tasks);
     }
 
-    public Task getTaskByProjectAndTaskId(String projectId, String taskId) {
+    public Task getTaskById(String projectId, String taskId) {
         var task = taskRepository.findByProjectIdAndTaskId(projectId, taskId).orElse(null);
         return NabiMapper.INSTANCE.toTaskDto(task);
     }
@@ -44,7 +44,7 @@ public class TaskService {
         return NabiMapper.INSTANCE.toTaskDto(addedTask);
     }
 
-    public void removeTaskByProjectAndTaskId(String projectId, String taskId) {
+    public void removeTaskById(String projectId, String taskId) {
         taskRepository.findByProjectIdAndTaskId(projectId, taskId).ifPresent(taskRepository::delete);
     }
 }

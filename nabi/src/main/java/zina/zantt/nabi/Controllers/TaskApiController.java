@@ -1,5 +1,6 @@
 package zina.zantt.nabi.Controllers;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import zina.zantt.nabi.Models.ApiResult;
@@ -14,20 +15,21 @@ import java.util.List;
 public class TaskApiController {
     private final TaskService taskService;
 
+    @Autowired
     public TaskApiController(TaskService taskService) {
         this.taskService = taskService;
     }
 
     @GetMapping("/{projectId}")
-    public ResponseEntity<ApiResult<List<Task>>> getTasksByProjectId(@PathVariable("projectId") String projectId) {
-        var tasks = taskService.getTasksByProjectId(projectId);
+    public ResponseEntity<ApiResult<List<Task>>> getTasks(@PathVariable("projectId") String projectId) {
+        var tasks = taskService.getTasks(projectId);
         return ResponseEntity.ok(new ApiResult<>(true, "Success", tasks));
     }
 
     @GetMapping("/{projectId}/{taskId}")
-    public ResponseEntity<ApiResult<Task>> getTaskByTaskId(@PathVariable("projectId") String projectId,
-                                                           @PathVariable("taskId") String taskId) {
-        var task = taskService.getTaskByProjectAndTaskId(projectId, taskId);
+    public ResponseEntity<ApiResult<Task>> getTask(@PathVariable("projectId") String projectId,
+                                                       @PathVariable("taskId") String taskId) {
+        var task = taskService.getTaskById(projectId, taskId);
         return ResponseEntity.ok(new ApiResult<>(true, "Success", task));
     }
 
@@ -43,7 +45,7 @@ public class TaskApiController {
     @DeleteMapping("/{projectId}/{taskId}")
     public ResponseEntity<ApiResult<Object>> removeTask(@PathVariable("projectId") String projectId,
                                                         @PathVariable("taskId") String taskId) {
-        taskService.removeTaskByProjectAndTaskId(projectId, taskId);
+        taskService.removeTaskById(projectId, taskId);
         return ResponseEntity.ok(new ApiResult<>(true, "Success", null));
     }
 }

@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import zina.zantt.nabi.Entities.ProjectEntity;
+import zina.zantt.nabi.Exceptions.WellKnownApiException;
 import zina.zantt.nabi.Mappers.NabiMapper;
 import zina.zantt.nabi.Models.Project;
 import zina.zantt.nabi.Repositories.ProjectRepository;
@@ -25,12 +26,19 @@ public class ProjectService {
         return NabiMapper.INSTANCE.toProjectDto(projects);
     }
 
-    public Project getProjectByProjectId(String projectId) {
+    public Project getProjectById(String projectId) {
         var project = projectRepository.findById(projectId).orElse(null);
         return NabiMapper.INSTANCE.toProjectDto(project);
     }
 
     public Project addProject(String name, String description) {
+        if (name == null || name.length() < 2) {
+            throw new WellKnownApiException("Project name must be at least 2 characters long.");
+        }
+        if (name.length() > 255) {
+            throw new WellKnownApiException("Project name must be at most 255 characters long.");
+        }
+
         var project = new ProjectEntity();
         project.setName(name);
         project.setDescription(description);
@@ -40,7 +48,7 @@ public class ProjectService {
         return NabiMapper.INSTANCE.toProjectDto(addedProject);
     }
 
-    public void removeProjectByProjectId(String projectId) {
+    public void removeProjectById(String projectId) {
         projectRepository.findById(projectId).ifPresent(projectRepository::delete);
     }
 }

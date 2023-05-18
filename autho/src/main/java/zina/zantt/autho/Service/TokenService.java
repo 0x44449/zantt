@@ -124,7 +124,7 @@ public class TokenService {
         if (client == null) {
             // throw error
         }
-
+        
         client.getJwksUri();
 
         // create JWT token by jwks, it's a public key

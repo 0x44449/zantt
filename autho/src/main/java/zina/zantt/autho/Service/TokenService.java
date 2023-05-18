@@ -2,7 +2,9 @@ package zina.zantt.autho.Service;
 
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import zina.zantt.autho.Repositories.ClientRepository;
 
 import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
@@ -21,6 +23,13 @@ public class TokenService {
     private final String KEY_GEN_ALGORITHM = "EC";
     private final String SEED_HASH_ALGORITHM = "SHA-256";
     private final String KEY_RANDOM_ALGORITHM = "SHA1PRNG";
+
+    private final ClientRepository clientRepository;
+
+    @Autowired
+    public TokenService(ClientRepository clientRepository) {
+        this.clientRepository = clientRepository;
+    }
 
     private void getPrivateKey() {
         var keyPair = Keys.keyPairFor(SignatureAlgorithm.ES256);
@@ -107,5 +116,22 @@ public class TokenService {
         catch (Exception e) {
             // If JWT is invalid, return error
         }
+    }
+
+    public void issueTokenByAssertion(String clientId, String scope, String state, String clientAssertion) {
+        // get client by clientId
+        var client = clientRepository.findById(clientId).orElse(null);
+        if (client == null) {
+            // throw error
+        }
+
+        client.getJwksUri();
+
+        // create JWT token by jwks, it's a public key
+
+    }
+
+    public void issueCodeByJwks(String clientId, String scope, String jwks) {
+
     }
 }

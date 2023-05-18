@@ -37,9 +37,13 @@ public class ClientService {
                              List<String> allowCallbackUris,
                              List<String> allowOrigins,
                              List<GrantType> grantTypes) {
+        var clientId = generateClientId();
+        var clientSecret = UUID.randomUUID().toString().replace("-", "");
+
         var client = ClientEntity.builder()
-                .clientId(generateClientId())
+                .clientId(clientId)
                 .clientName(clientName)
+                .clientSecret(clientSecret)
                 .logoUri(logoUri)
                 .allowRedirectUris(String.join(",", allowRedirectUris))
                 .allowCallbackUris(String.join(",", allowCallbackUris))
@@ -49,32 +53,7 @@ public class ClientService {
                         .collect(Collectors.joining(",")))
                 .createdDateTime(LocalDateTime.now())
                 .build();
-    }
 
-//    public RegistedClient registClient(String clientName,
-//                                       List<String> redirectUris,
-//                                       String jwks) {
-//        var client = new ClientEntity();
-//        client.setClientId(generateClientId());
-//        client.setClientName(clientName);
-//        for (var uri : redirectUris) {
-//            if (client.getRedirectUri1() == null) {
-//                client.setRedirectUri1(uri);
-//            } else if (client.getRedirectUri2() == null) {
-//                client.setRedirectUri2(uri);
-//            } else if (client.getRedirectUri3() == null) {
-//                client.setRedirectUri3(uri);
-//            } else {
-//                break;
-//            }
-//        }
-//        client.setScope("");
-//        client.setJwks(jwks);
-//        client.setCreatedDateTime(LocalDateTime.now());
-//
-//        var addedClient = clientRepository.save(client);
-//
-//        var registedClient = new RegistedClient();
-//        return registedClient;
-//    }
+        clientRepository.save(client);
+    }
 }

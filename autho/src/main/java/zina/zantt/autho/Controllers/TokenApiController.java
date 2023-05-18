@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import zina.zantt.autho.Service.TokenService;
 
 @RestController
-@RequestMapping("/token")
+@RequestMapping("/api/token")
 public class TokenApiController {
     private final TokenService tokenService;
 

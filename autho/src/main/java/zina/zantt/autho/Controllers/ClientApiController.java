@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/client")
+@RequestMapping("/api/client")
 public class ClientApiController {
     @GetMapping("/register")
     public ResponseEntity getRegisted() {
